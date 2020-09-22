@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  div(class="w-full bg-grey-lighter h-full flex flex-col justify-center")
+    div(class="w-auto mx-auto rounded overflow-hidden shadow-lg border-t-8 border-gray-800 p-8 my-4")
+      div(class="px-6 pt-4 pb-2 divide-y divide-gray-400 divide-dashed")
+
+        div(class="py-2")
+          span(class="mr-2  font-bold") Model:
+          span(class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700") #{result.model}
+
+        div(class="py-2")
+          span(class="mr-2 font-bold") Property:
+          span(class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700") #{result.property}
+
+        div(class="py-2")
+          span(class="mr-2 font-bold") Options:
+          each option in result.options
+            span(class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-1")= option
+
+        div(class="py-2")
+          span(class="font-bold") Output:
+          pre(class="mt-4").
+            #{result.output}
