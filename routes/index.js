@@ -25,15 +25,17 @@ router.post('/run', uploadImitatorFiles, async (req, res) => {
     const property = req.files.property[0];
 
     // imitator options
-    const options = req.body.options.trim().split(' ');
+    let options = req.body.options;
+    options = options.length !== 0 ? options.trim().split(' ') : [];
 
     // imitator output
-    const output = await runImitator(model.path, property.path, options);
+    const result = await runImitator(model.path, property.path, options);
 
     res.render('result', {
       result: {
-        output,
         options,
+        output: result.output,
+        file: result.file,
         model: model.originalname,
         property: property.originalname,
       },
@@ -44,6 +46,12 @@ router.post('/run', uploadImitatorFiles, async (req, res) => {
       error: { status: 500, stack: error },
     });
   }
+});
+
+/* POST download files */
+router.post('/download', (req, res) => {
+  const { file } = req.body;
+  res.download(file);
 });
 
 module.exports = router;

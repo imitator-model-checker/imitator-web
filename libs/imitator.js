@@ -1,6 +1,8 @@
 const fs = require('fs');
+const path = require('path');
 const stripAnsi = require('strip-ansi');
 const { spawn } = require('child_process');
+const { zipFiles } = require('../libs/archiver');
 
 /**
  * Run imitator
@@ -45,10 +47,27 @@ function runImitator(model, property, options) {
 
     // return result when imitator finishes
     imitator.on('exit', async (code) => {
-      const filesToRemove = [model, property];
-      Promise.all(filesToRemove.map((f) => fs.promises.unlink(f)));
+      try {
+        const outputPath = `${outputFilename}.res`;
 
-      code === 0 ? resolve(result.output) : reject(result.error);
+        // zip files
+        const zipFile = await zipFiles(path.dirname(outputFilename), [
+          { path: model, name: 'model.imi', type: 'file' },
+          { path: property, name: 'property.imiprop', type: 'file' },
+          { path: outputPath, name: 'output.res', type: 'file' },
+          { path: result.output, name: 'stdout.txt', type: 'string' },
+        ]);
+
+        // remove temporary files
+        const filesToRemove = [model, property, outputPath];
+        Promise.all(filesToRemove.map((f) => fs.promises.unlink(f)));
+
+        code === 0
+          ? resolve({ file: zipFile, output: result.output })
+          : reject(result.error);
+      } catch (err) {
+        reject(err);
+      }
     });
 
     // catch error
