@@ -7,6 +7,34 @@ const { spawn } = require('child_process');
 const { zipFiles } = require('../libs/archiver');
 
 /**
+ * Return the command to execute imitator
+ *
+ * @param {String} mode execution mode
+ *
+ * @returns Array<String>
+ */
+function getImitatorCommand(mode) {
+  if (mode === 'docker') {
+    const outputFolder = config.uploadFolder;
+    return {
+      command: 'docker',
+      extraArguments: [
+        'run',
+        '--rm',
+        '-v',
+        `${outputFolder}:${outputFolder}`,
+        config.imitatorPath,
+      ],
+    };
+  } else {
+    return {
+      command: config.imitatorPath,
+      extraArguments: [],
+    };
+  }
+}
+
+/**
  * Run imitator
  *
  * @param {String} model Absoule path of the imitator model file
@@ -29,8 +57,12 @@ function runImitator(model, property, options) {
       error: '',
     };
 
-    // imitator command
-    const imitator = spawn(config.imitatorPath, [
+    // get the corresponding imitator command to be executed
+    const { command, extraArguments } = getImitatorCommand(config.imitatorMode);
+
+    // imitator execution
+    const imitator = spawn(command, [
+      ...extraArguments,
       model,
       property,
       '-output-prefix',
