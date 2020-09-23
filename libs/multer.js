@@ -1,12 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
+const config = require('../config');
 const { v4: uuidv4 } = require('uuid');
 
 // multer configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const folder = '/tmp/imitator-runner';
+    const folder = config.uploadFolder;
 
     if (!fs.existsSync(folder)) {
       fs.mkdirSync(folder, { recursive: true });

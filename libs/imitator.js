@@ -1,5 +1,7 @@
 const fs = require('fs');
 const path = require('path');
+const config = require('../config');
+const { v4: uuidv4 } = require('uuid');
 const stripAnsi = require('strip-ansi');
 const { spawn } = require('child_process');
 const { zipFiles } = require('../libs/archiver');
@@ -15,8 +17,11 @@ const { zipFiles } = require('../libs/archiver');
  */
 function runImitator(model, property, options) {
   return new Promise((resolve, reject) => {
-    // imitator output filename
-    const outputFilename = model.replace('model-', '').replace('.imi', '');
+    // output folder
+    const outputFolder = config.uploadFolder;
+
+    // imitator output prefix
+    const outputPrefix = path.join(outputFolder, uuidv4());
 
     // result of imitator
     const result = {
@@ -25,11 +30,11 @@ function runImitator(model, property, options) {
     };
 
     // imitator command
-    const imitator = spawn('imitator', [
+    const imitator = spawn(config.imitatorPath, [
       model,
       property,
       '-output-prefix',
-      outputFilename,
+      outputPrefix,
       ...options,
     ]);
 
@@ -48,18 +53,18 @@ function runImitator(model, property, options) {
     // return result when imitator finishes
     imitator.on('exit', async (code) => {
       try {
-        const outputPath = `${outputFilename}.res`;
+        const outputFile = `${outputPrefix}.res`;
 
         // zip files
-        const zipFile = await zipFiles(path.dirname(outputFilename), [
+        const zipFile = await zipFiles(outputFolder, [
           { path: model, name: 'model.imi', type: 'file' },
           { path: property, name: 'property.imiprop', type: 'file' },
-          { path: outputPath, name: 'output.res', type: 'file' },
+          { path: outputFile, name: 'output.res', type: 'file' },
           { path: result.output, name: 'stdout.txt', type: 'string' },
         ]);
 
         // remove temporary files
-        const filesToRemove = [model, property, outputPath];
+        const filesToRemove = [model, property, outputFile];
         Promise.all(filesToRemove.map((f) => fs.promises.unlink(f)));
 
         code === 0
