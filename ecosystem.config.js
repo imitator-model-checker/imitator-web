@@ -12,6 +12,10 @@ module.exports = {
       },
       env_production: {
         NODE_ENV: 'production',
+        UPLOAD_FOLDER: '/data/imitator',
+        IMITATOR_MODE: 'docker',
+        IMITATOR_PATH: 'imitator:latest',
+        PORT: 3001,
       },
     },
   ],
