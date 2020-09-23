@@ -22,10 +22,10 @@ yarn start
 
 ## Configuration
 
-- `UPLOAD_FOLDER`: Set the folder where the files will be saved temporarily ().
-- `IMITATOR_MODE`: Set the mode how `imitator` will be executed. The possible values are
+- `UPLOAD_FOLDER`: Set the folder where the files will be saved temporarily. Default: `/tmp/imitator-runner`.
+- `IMITATOR_MODE`: Set the mode how `imitator` will be executed. Default: `binary`. The possible values are
   - `binary`: if the `imitator` binary will be used
   - `docker`: if the `imitator` docker image will be used
-- `IMITATOR_PATH`: Set either the path where the imitator binary is located (`binary` mode) or the name of the Docker image to be used (`docker` mode).
-- `PORT`: Set the port that the server will listen
+- `IMITATOR_PATH`: Set either the path where the imitator binary is located (`binary` mode) or the name of the Docker image to be used (`docker` mode). Default `imitator`
+- `PORT`: Set the port that the server will listen. Default: `3000`
 
