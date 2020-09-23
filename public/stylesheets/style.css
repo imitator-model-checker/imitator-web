@@ -21041,6 +21041,16 @@ video {
           animation: bounce 1s infinite;
 }
 
+.navigation {
+  height: 65px;
+}
+
+.content {
+  height: calc(100% - 65px);
+  height: -o-calc(100% - 65px); /* opera */ /* google, safari */
+  height: -moz-calc(100% - 65px); /* firefox */
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;

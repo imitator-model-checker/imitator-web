@@ -9,8 +9,8 @@ html
     link(rel="manifest", href="/images/favicon/site.webmanifest")
     script(src='/javascripts/download.js')
     script(src='/javascripts/utils.js')
-  body
-    nav(class="flex items-center justify-between flex-wrap px-6 py-2 border-solid border-black border-b")
+  body(class="h-screen")
+    nav(class="flex items-center justify-between flex-wrap px-6 py-2 border-solid border-black border-b navigation")
       div(class="flex items-center flex-no-shrink mr-6")
         svg(class="h-8 w-8 mr-2" width="54" height="54" viewBox="0 0 5000 3293" xmlns="http://www.w3.org/2000/svg")
           g(fill="#000000" stroke="none")
@@ -25,5 +25,5 @@ html
       div
         a(href="https://github.com/imitator-model-checker/imitator/releases/latest", target="_blank", rel="noopener noreferrer", class="inline-block text-sm px-4 py-2 leading-none border rounded border-black hover:text-white hover:bg-black mt-4 lg:mt-0") Download
 
-    div(class="w-full bg-grey-lighter h-screen flex flex-col justify-center")
+    div(class="w-full bg-grey-lighter flex flex-col justify-center content")
       block content
