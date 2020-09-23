@@ -1,4 +1,3 @@
-const fs = require('fs');
 const path = require('path');
 const glob = require('fast-glob');
 const config = require('../config');
@@ -109,11 +108,13 @@ function runImitator(model, property, options, timeout) {
         ]);
 
         // remove temporary files
-        const generatedFiles = await glob(patternGeneratedFiles);
-        const filesToRemove = [model, property, ...generatedFiles];
-        Promise.all(filesToRemove.map((f) => fs.promises.unlink(f)));
+        const files = await glob(patternGeneratedFiles);
 
-        resolve({ file: path.basename(zipFile), output: result.output });
+        resolve({
+          files: files.map((f) => path.basename(f)),
+          zip: path.basename(zipFile),
+          output: result.output,
+        });
       } catch (err) {
         reject(err);
       }

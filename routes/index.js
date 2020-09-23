@@ -37,7 +37,8 @@ router.post('/run', upload, async (req, res) => {
       result: {
         options,
         output: result.output,
-        file: result.file,
+        file: result.zip,
+        generatedFiles: result.files,
         model: model.originalname,
         property: property.originalname,
       },

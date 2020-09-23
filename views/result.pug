@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  form(action="/api/imitator/download", method="post", class="w-auto mx-auto rounded shadow-lg border-t-8 border-gray-800 p-8 my-4")
+  div( class="w-auto mx-auto rounded shadow-lg border-t-8 border-gray-800 p-8 my-4")
     div(class="mb-4 font-light tracking-widest text-2xl") Results
 
     div(class="py-2")
@@ -22,7 +22,11 @@ block content
       pre(class="mt-4 flex flex-col overflow-auto max-w-6xl h-screen/3 text-sm").
         #{result.output}
 
+    div(class="py-2")
+      span(class="mr-2 font-bold") Generated files:
+      each file in result.generatedFiles
+        span(onclick=`downloadFile('${file}');`, class="cursor-pointer inline-block hover:bg-gray-700 hover:text-white bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-1")= file
+
     div(class="pt-6")
-      input(type="hidden", name="file", value=result.file)
-      button(type="submit", class="text-lg font-semibold bg-gray-800 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-black") Download
+      button(onclick=`downloadFile('${result.file}');`, class="text-lg font-semibold bg-gray-800 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-black") Download All
 
