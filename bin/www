@@ -4,10 +4,11 @@
  * Module dependencies.
  */
 
+const http = require('http');
 const app = require('../app');
 const config = require('../config');
+const scheduler = require('../libs/scheduler');
 const debug = require('debug')('imitator-runner:server');
-const http = require('http');
 
 /**
  * Get port from environment and store in Express.
@@ -83,3 +84,6 @@ function onListening() {
   const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+// initialize scheduler
+scheduler();
