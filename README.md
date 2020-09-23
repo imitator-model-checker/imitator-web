@@ -2,6 +2,10 @@
 
 Graphical web interface to run imitator
 
+## Requirements
+
+- [node](https://nodejs.org/en/) >= 10
+
 ## Run
 
 Firstly, you need to install the required dependencies
