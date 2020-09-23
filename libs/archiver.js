@@ -31,6 +31,12 @@ function zipFiles(outputFolder, files) {
           // @ts-ignore
           archive.append(f.path, { name: f.name });
           break;
+        case 'glob': {
+          const cwd = path.dirname(f.pattern);
+          const pattern = path.basename(f.pattern);
+          archive.glob(pattern, { cwd });
+          break;
+        }
       }
     }
     archive.finalize();
