@@ -7,12 +7,82 @@ const { runImitator } = require('../libs/imitator');
 
 const router = express.Router();
 
-/* GET index. */
+/**
+ * @swagger
+ *
+ * /api/imitator:
+ *  get:
+ *    description: Get welcome message
+ *    tags:
+ *      - imitator
+ *    produces:
+ *      - application/json
+ *    responses:
+ *      200:
+ *        description: OK
+ */
 router.get('/', (req, res) => {
   res.json({ message: 'Imitator API' });
 });
 
-/* POST imitator run. */
+/**
+ * @swagger
+ *
+ * /api/imitator/run:
+ *  post:
+ *    description: Run imitator
+ *    tags:
+ *      - imitator
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              model:
+ *                description: imitator model
+ *                required: true
+ *                type: string
+ *                format: byte
+ *              property:
+ *                description: imitator property
+ *                required: true
+ *                type: string
+ *                format: byte
+ *              options:
+ *                description: imitator options
+ *                type: string
+ *              timeout:
+ *                description: timeout of execution
+ *                type: string
+ *    responses:
+ *      200:
+ *        description: Information about the imitator execution
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                result:
+ *                  type: object
+ *                  properties:
+ *                    model:
+ *                      description: imitator model
+ *                      type: string
+ *                    property:
+ *                      description: imitator property
+ *                      type: string
+ *                    options:
+ *                      description: imitator options
+ *                      type: string
+ *                    file:
+ *                      description: filename of the zipped file
+ *                      type: string
+ *                    output:
+ *                      description: imitator output
+ *                      type: string
+ */
 router.post('/run', upload, async (req, res) => {
   try {
     // @ts-ignore
@@ -55,7 +125,33 @@ router.post('/run', upload, async (req, res) => {
   }
 });
 
-/* POST download files */
+/**
+ * @swagger
+ *
+ * /api/imitator/download:
+ *  post:
+ *    description: Download imitator output
+ *    tags:
+ *      - imitator
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              file:
+ *                description: filename of the imitator output
+ *                type: string
+ *    responses:
+ *      200:
+ *        description: compressed file with imitator output
+ *        content:
+ *          application/octet-stream:
+ *            schema:
+ *              type: string
+ *              format: binary
+ */
 router.post('/download', async (req, res) => {
   try {
     const file = req.body.file;

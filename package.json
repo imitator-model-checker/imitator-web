@@ -19,6 +19,8 @@
     "pm2": "^4.4.1",
     "pug": "2.0.0-beta11",
     "strip-ansi": "^6.0.0",
+    "swagger-jsdoc": "^4.0.0",
+    "swagger-ui-express": "^4.1.4",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
