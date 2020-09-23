@@ -24,12 +24,20 @@ router.post('/run', uploadImitatorFiles, async (req, res) => {
     // @ts-ignore
     const property = req.files.property[0];
 
+    // @ts-ignore
+    const timeout = req.body.timeout;
+
     // imitator options
     let options = req.body.options;
     options = options.length !== 0 ? options.trim().split(' ') : [];
 
     // imitator output
-    const result = await runImitator(model.path, property.path, options);
+    const result = await runImitator(
+      model.path,
+      property.path,
+      options,
+      timeout
+    );
 
     res.render('result', {
       result: {

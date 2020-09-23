@@ -40,10 +40,11 @@ function getImitatorCommand(mode) {
  * @param {String} model Absoule path of the imitator model file
  * @param {String} property  Absolute path of the imitator property file
  * @param {Array<String>} options List of imitator options
+ * @param {Number} timeout timeout of execution
  *
  * @returns Promise<String>
  */
-function runImitator(model, property, options) {
+function runImitator(model, property, options, timeout) {
   return new Promise((resolve, reject) => {
     // output folder
     const outputFolder = config.uploadFolder;
@@ -70,6 +71,14 @@ function runImitator(model, property, options) {
       ...options,
     ]);
 
+    // kill process if timeout is reached
+    if (timeout) {
+      setTimeout(() => {
+        imitator.kill();
+        return reject(new Error('Timeout'));
+      }, timeout * 1000);
+    }
+
     // accumulate imitator output
     imitator.stdout.on('data', (stdout) => {
       // @ts-ignore
@@ -85,6 +94,9 @@ function runImitator(model, property, options) {
     // return result when imitator finishes
     imitator.on('exit', async (code) => {
       try {
+        if (code !== 0) return reject(result.error);
+
+        // output file
         const outputFile = `${outputPrefix}.res`;
 
         // zip files
@@ -99,9 +111,7 @@ function runImitator(model, property, options) {
         const filesToRemove = [model, property, outputFile];
         Promise.all(filesToRemove.map((f) => fs.promises.unlink(f)));
 
-        code === 0
-          ? resolve({ file: zipFile, output: result.output })
-          : reject(result.error);
+        resolve({ file: zipFile, output: result.output });
       } catch (err) {
         reject(err);
       }

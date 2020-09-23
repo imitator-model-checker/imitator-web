@@ -7,11 +7,18 @@ block content
       div(class="mb-4")
         label(for="model", class="block text-grey-darkest font-bold mb-2") Model
         input(name="model", type="file", id="model", placeholder="~/my-model.imi", required, class="shadow border rounded w-full p-2 text-xs text-grey-darker")
+
       div(class="mb-4")
         label(for="property", class="block text-grey-darkest font-bold mb-2") Property
         input(name="property", type="file", id="property", placeholder="~/my-property.propimi", required, class="shadow border rounded w-full p-2 text-xs text-grey-darker")
+
       div(class="mb-4")
         label(for="options", class="block text-grey-darkest font-bold mb-2") Options
         input(name="options", type="text", id="options", placeholder="-depth-limit=10, -statistics", class="shadow border rounded w-full p-2 text-xs text-grey-darker")
-      div(class="mt-3")
+
+      div(class="mb-4")
+        label(for="timeout", class="block text-grey-darkest font-bold mb-2") Timeout (s)
+        input(name="timeout", type="text", id="timeout", placeholder="10", class="shadow border rounded w-full p-2 text-xs text-grey-darker")
+
+      div(class="pt-6")
         button(type="submit", class="text-lg font-semibold bg-gray-800 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-black") Run
