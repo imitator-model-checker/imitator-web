@@ -111,7 +111,7 @@ function runImitator(model, property, options, timeout) {
         const filesToRemove = [model, property, outputFile];
         Promise.all(filesToRemove.map((f) => fs.promises.unlink(f)));
 
-        resolve({ file: zipFile, output: result.output });
+        resolve({ file: path.basename(zipFile), output: result.output });
       } catch (err) {
         reject(err);
       }

@@ -21,4 +21,9 @@ const storage = multer.diskStorage({
   },
 });
 
-module.exports = multer({ storage });
+const upload = multer({ storage }).fields([
+  { name: 'model', maxCount: 1 },
+  { name: 'property', maxCount: 1 },
+]);
+
+module.exports = upload;
