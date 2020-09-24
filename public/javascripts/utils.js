@@ -1,9 +1,11 @@
+/* eslint no-undef: 0 */
+/* eslint no-unused-vars: 0 */
+
 /**
  * Download a file using the imitator API
  *
  * @param {string} file file to be download
  */
-// eslint-disable-next-line no-unused-vars
 async function downloadFile(file) {
   const api = '/api/imitator/download';
 
@@ -18,6 +20,24 @@ async function downloadFile(file) {
   const blob = await res.blob();
 
   // @ts-ignore
-  // eslint-disable-next-line no-undef
   download(blob, file);
 }
+
+/**
+ * Show spinner
+ */
+function showSpinner() {
+  $('#spinner').addClass('loading');
+}
+
+/**
+ * Hide spinner
+ */
+function hideSpinner() {
+  $('#spinner').removeClass('loading');
+}
+
+/**
+ *  Remove spinner when the form submission finishes
+ */
+window.onbeforeunload = function (e) {};
