@@ -52,7 +52,10 @@ $('document').ready(function () {
   $('.tab-slider--body').hide();
 
   // @ts-ignore
-  $('.tab-slider--body:first').addClass('active').show();
+  $('.tab-slider--body:first').show();
+
+  // @ts-ignore
+  $('.tab-slider--trigger:first').addClass('active');
 
   // @ts-ignore
   $('.tab-slider--nav li').click(function () {

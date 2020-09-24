@@ -39,28 +39,6 @@
 
 /** CSS for tabs **/
 
-body {
-  background: rgba(52, 95, 144, 0.07);
-  font-family: "Roboto", sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-  line-height: 1.66667;
-}
-
-.container {
-  width: 75%;
-  margin: 3rem auto;
-}
-
-h2 {
-  color: #345F90;
-  font-size: 24px;
-  line-height: 1.25;
-  font-family: "Roboto Slab", serif;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
 .tab-slider--nav {
   width: 100%;
   float: left;
@@ -81,15 +59,7 @@ h2 {
   user-select: none;
 }
 .tab-slider--tabs:after {
-  content: "";
-  width: 50%;
-  background: #345F90;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
   transition: all 250ms ease-in-out;
-  border-radius: 35px;
 }
 .tab-slider--tabs.slide:after {
   left: 50%;
@@ -112,8 +82,7 @@ h2 {
 }
 .tab-slider--trigger.active {
   color: #fff;
-}
-
-.tab-slider--body {
-  margin-bottom: 20px;
+  background: #345F90;
+  border-radius: 35px;
+  transition: all 250ms ease-in-out;
 }
