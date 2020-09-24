@@ -32,8 +32,15 @@ router.post('/run', upload, async (req, res) => {
     const modelsPath = await utils.moveToFolder(outputFolder, models);
 
     // imitator options
-    let options = req.body.options;
+    let options = req.body.options || '';
     options = options.length !== 0 ? options.trim().split(' ') : [];
+
+    // filter options
+    const forbiddenOptions = ['-output-prefix'];
+    options = options.filter((o) => {
+      const sentOption = o.split('=')[0];
+      return !forbiddenOptions.includes(sentOption);
+    });
 
     // imitator output
     const imitatorOutput = await runImitator(
