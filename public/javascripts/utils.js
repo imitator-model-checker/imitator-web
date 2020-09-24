@@ -28,6 +28,7 @@ async function downloadFile(identifier, file) {
  * Show spinner
  */
 function showSpinner() {
+  // @ts-ignore
   $('#spinner').addClass('loading');
 }
 
@@ -35,10 +36,48 @@ function showSpinner() {
  * Hide spinner
  */
 function hideSpinner() {
+  // @ts-ignore
   $('#spinner').removeClass('loading');
 }
 
 /**
  *  Remove spinner when the form submission finishes
  */
+// @ts-ignore
 window.onbeforeunload = function (e) {};
+
+// @ts-ignore
+$('document').ready(function () {
+  // @ts-ignore
+  $('.tab-slider--body').hide();
+
+  // @ts-ignore
+  $('.tab-slider--body:first').addClass('active').show();
+
+  // @ts-ignore
+  $('.tab-slider--nav li').click(function () {
+    // @ts-ignore
+    $('.tab-slider--body').hide();
+
+    // @ts-ignore
+    var activeTab = $(this).attr('rel');
+
+    // @ts-ignore
+    $('#' + activeTab).fadeIn();
+
+    // @ts-ignore
+    if ($(this).attr('rel') === 'tabs-1') {
+      // @ts-ignore
+      $('.tab-slider--tabs').addClass('slide');
+    } else {
+      // @ts-ignore
+      $('.tab-slider--tabs').removeClass('slide');
+    }
+
+    // @ts-ignore
+    $('.tab-slider--nav li').removeClass('active');
+
+    // @ts-ignore
+    $(this).addClass('active');
+  });
+});

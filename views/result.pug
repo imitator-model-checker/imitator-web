@@ -20,9 +20,17 @@ block content
 
     div(class="py-2")
       span(class="font-bold") Outputs:
-      each output in result.outputs
-        pre(class="mt-4 flex flex-col overflow-auto max-w-6xl h-screen/3 text-sm border border-gray-700 p-1").
-          #{output.stdout}
+      div(id="tabs")
+        div(class="tab-slider--nav")
+          ul(class="tab-slider--tabs")
+            each output, index in result.outputs
+              li(class="tab-slider--trigger", rel=`tabs-${index}`) #{output.prefix}
+
+        div(class="tab-slider--container")
+          each output, index in result.outputs
+            div(id=`tabs-${index}`, class="tab-slider--body")
+              pre(class="mt-4 flex flex-col overflow-auto max-w-6xl h-screen/3 text-sm border border-gray-700 p-1").
+                #{output.stdout}
 
     div(class="py-2")
       span(class="mr-2 font-bold") Generated files:
