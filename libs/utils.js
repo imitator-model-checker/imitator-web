@@ -34,4 +34,12 @@ async function moveToFolder(destination, files) {
   return files.map((f) => path.join(destination, f.originalname));
 }
 
-module.exports = { moveToFolder, createFolder };
+/**
+ * Flat an array
+ *
+ * @param {Array<any>} arr array to be flatten
+ * @returns Array<any>
+ */
+const flatArray = (arr) => [].concat(...arr);
+
+module.exports = { moveToFolder, createFolder, flatArray };

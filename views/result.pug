@@ -5,8 +5,9 @@ block content
     div(class="mb-4 font-light tracking-widest text-2xl") Results
 
     div(class="py-2")
-      span(class="mr-2  font-bold") Model:
-      span(class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700") #{result.model}
+      span(class="mr-2  font-bold") Models:
+      each model in result.models
+        span(class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-1")= model
 
     div(class="py-2")
       span(class="mr-2 font-bold") Property:
@@ -18,14 +19,16 @@ block content
         span(class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-1")= option
 
     div(class="py-2")
-      span(class="font-bold") Output:
-      pre(class="mt-4 flex flex-col overflow-auto max-w-6xl h-screen/3 text-sm border border-gray-700 p-1").
-        #{result.output}
+      span(class="font-bold") Outputs:
+      each output in result.outputs
+        pre(class="mt-4 flex flex-col overflow-auto max-w-6xl h-screen/3 text-sm border border-gray-700 p-1").
+          #{output.stdout}
 
     div(class="py-2")
       span(class="mr-2 font-bold") Generated files:
-      each file in result.generatedFiles
-        span(onclick=`downloadFile('${result.identifier}', '${file}');`, class="cursor-pointer inline-block hover:bg-gray-700 hover:text-white bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-1")= file
+      each output in result.outputs
+        each file in output.files
+          span(onclick=`downloadFile('${result.identifier}', '${file}');`, class="cursor-pointer inline-block hover:bg-gray-700 hover:text-white bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-1")= file
 
     div(class="pt-6")
       button(onclick=`downloadFile('${result.identifier}', '${result.file}');`, class="text-lg font-semibold bg-gray-800 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-black") Download All
