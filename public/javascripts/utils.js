@@ -4,14 +4,15 @@
 /**
  * Download a file using the imitator API
  *
+ * @param {string} identifier identifier of the execution
  * @param {string} file file to be download
  */
-async function downloadFile(file) {
+async function downloadFile(identifier, file) {
   const api = '/api/imitator/download';
 
   const res = await fetch(api, {
     method: 'POST',
-    body: JSON.stringify({ file }),
+    body: JSON.stringify({ identifier, file }),
     headers: {
       'Content-type': 'application/json',
     },

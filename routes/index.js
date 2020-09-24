@@ -1,4 +1,7 @@
+const path = require('path');
 const express = require('express');
+const { v4: uuidv4 } = require('uuid');
+const utils = require('../libs/utils');
 const upload = require('../libs/multer');
 const { runImitator } = require('../libs/imitator');
 
@@ -13,7 +16,7 @@ router.get('/', (req, res) => {
 router.post('/run', upload, async (req, res) => {
   try {
     // @ts-ignore
-    const model = req.files.model[0];
+    const models = req.files.models;
 
     // @ts-ignore
     const property = req.files.property[0];
@@ -21,28 +24,37 @@ router.post('/run', upload, async (req, res) => {
     // @ts-ignore
     const timeout = req.body.timeout;
 
+    // identifier of the run
+    const identifier = uuidv4();
+    const outputFolder = path.join(property.destination, identifier);
+
+    const propertyPath = await utils.moveToFolder(outputFolder, [property]);
+    const modelsPath = await utils.moveToFolder(outputFolder, models);
+
     // imitator options
     let options = req.body.options;
     options = options.length !== 0 ? options.trim().split(' ') : [];
 
     // imitator output
-    const result = await runImitator(
-      model.path,
-      property.path,
+    const imitatorOutput = await runImitator(
+      modelsPath[0],
+      propertyPath[0],
       options,
-      timeout
+      timeout,
+      outputFolder
     );
 
-    res.render('result', {
-      result: {
-        options,
-        output: result.output,
-        file: result.zip,
-        generatedFiles: result.files,
-        model: model.originalname,
-        property: property.originalname,
-      },
-    });
+    const result = {
+      options,
+      identifier,
+      output: imitatorOutput.output,
+      file: imitatorOutput.zip,
+      generatedFiles: imitatorOutput.files,
+      model: models[0].originalname,
+      property: property.originalname,
+    };
+
+    res.render('result', { result });
   } catch (error) {
     res.render('error', {
       message: 'Oops',

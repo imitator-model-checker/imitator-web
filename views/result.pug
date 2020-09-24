@@ -25,8 +25,8 @@ block content
     div(class="py-2")
       span(class="mr-2 font-bold") Generated files:
       each file in result.generatedFiles
-        span(onclick=`downloadFile('${file}');`, class="cursor-pointer inline-block hover:bg-gray-700 hover:text-white bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-1")= file
+        span(onclick=`downloadFile('${result.identifier}', '${file}');`, class="cursor-pointer inline-block hover:bg-gray-700 hover:text-white bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-1")= file
 
     div(class="pt-6")
-      button(onclick=`downloadFile('${result.file}');`, class="text-lg font-semibold bg-gray-800 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-black") Download All
+      button(onclick=`downloadFile('${result.identifier}', '${result.file}');`, class="text-lg font-semibold bg-gray-800 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-black") Download All
 

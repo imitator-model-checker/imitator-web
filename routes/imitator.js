@@ -1,7 +1,9 @@
-const path = require('path');
 const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const config = require('../config');
+const utils = require('../libs/utils');
+const { v4: uuidv4 } = require('uuid');
 const upload = require('../libs/multer');
 const { runImitator } = require('../libs/imitator');
 
@@ -84,6 +86,9 @@ router.get('/', (req, res) => {
  *                      type: array
  *                      items:
  *                        type: string
+ *                    identifier:
+ *                      description: identifier of the execution
+ *                      type: string
  *                    output:
  *                      description: imitator output
  *                      type: string
@@ -91,7 +96,7 @@ router.get('/', (req, res) => {
 router.post('/run', upload, async (req, res) => {
   try {
     // @ts-ignore
-    const model = req.files.model[0];
+    const models = req.files.models;
 
     // @ts-ignore
     const property = req.files.property[0];
@@ -99,33 +104,42 @@ router.post('/run', upload, async (req, res) => {
     // @ts-ignore
     const timeout = req.body.timeout || '';
 
+    // check required fields
+    if (models.length === 0 || !property) {
+      throw new Error('Model and property fields are required');
+    }
+
+    // identifier of the run
+    const identifier = uuidv4();
+    const outputFolder = path.join(property.destination, identifier);
+
+    const propertyPath = await utils.moveToFolder(outputFolder, [property]);
+    const modelsPath = await utils.moveToFolder(outputFolder, models);
+
     // imitator options
     let options = req.body.options || '';
     options = options.length !== 0 ? options.trim().split(' ') : [];
 
-    // check required fields
-    if (!model || !property) {
-      throw new Error('Model and property fields are required');
-    }
-
     // imitator output
-    const result = await runImitator(
-      model.path,
-      property.path,
+    const imitatorOutput = await runImitator(
+      modelsPath[0],
+      propertyPath[0],
       options,
-      timeout
+      timeout,
+      outputFolder
     );
 
-    res.json({
-      result: {
-        options,
-        output: result.output,
-        file: result.zip,
-        generatedFiles: result.files,
-        model: model.originalname,
-        property: property.originalname,
-      },
-    });
+    const result = {
+      options,
+      identifier,
+      output: imitatorOutput.output,
+      file: imitatorOutput.zip,
+      generatedFiles: imitatorOutput.files,
+      model: models[0].originalname,
+      property: property.originalname,
+    };
+
+    res.json({ result });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -161,10 +175,13 @@ router.post('/run', upload, async (req, res) => {
 router.post('/download', async (req, res) => {
   try {
     const file = req.body.file;
+    const identifier = req.body.identifier;
+
     if (!file) throw new Error('filename is required');
+    if (!identifier) throw new Error('identifier is required');
 
     // check if file exist
-    const fullPath = path.join(config.uploadFolder, file);
+    const fullPath = path.join(config.uploadFolder, identifier, file);
     await fs.promises.access(fullPath);
 
     res.download(fullPath);
