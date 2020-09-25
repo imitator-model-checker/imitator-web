@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  div( class="card flex flex-wrap m-auto rounded shadow-lg border-t-8 border-gray-800 p-8")
+  div( class="max-w-6xl min-w-0 bg-white flex flex-wrap m-auto rounded shadow-lg border-t-8 border-gray-800 p-8")
     div(class="w-full mb-4 font-light tracking-widest text-2xl") Results
 
     div(class="w-full py-2")
@@ -30,7 +30,7 @@ block content
         div(class="tab-slider--container")
           each output, index in result.outputs
             div(id=`tabs-${index}`, class="tab-slider--body")
-              pre(class="mt-4 flex flex-col overflow-auto max-w-6xl h-screen/3 text-sm border border-gray-700 p-1").
+              pre(class="mt-4 flex flex-col overflow-auto h-screen/3 text-sm border border-gray-700 p-1").
                 #{output.stdout}
 
     div(class="w-full py-2")

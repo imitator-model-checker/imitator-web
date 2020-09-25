@@ -21071,11 +21071,6 @@ video {
   transition: all 250ms ease-in-out;
 }
 
-.card {
-  background: white;
-  width: 800px;
-}
-
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
