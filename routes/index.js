@@ -56,7 +56,7 @@ router.post('/run', upload, async (req, res) => {
       options,
       identifier,
       outputs,
-      file: zipFile,
+      file: path.basename(zipFile),
       models: models.map((m) => m.originalname),
       property: property.originalname,
     };
