@@ -63,19 +63,10 @@ $('document').ready(function () {
     $('.tab-slider--body').hide();
 
     // @ts-ignore
-    var activeTab = $(this).attr('rel');
+    const activeTab = $(this).attr('rel');
 
     // @ts-ignore
     $('#' + activeTab).fadeIn();
-
-    // @ts-ignore
-    if ($(this).attr('rel') === 'tabs-1') {
-      // @ts-ignore
-      $('.tab-slider--tabs').addClass('slide');
-    } else {
-      // @ts-ignore
-      $('.tab-slider--tabs').removeClass('slide');
-    }
 
     // @ts-ignore
     $('.tab-slider--nav li').removeClass('active');
