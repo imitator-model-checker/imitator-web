@@ -21041,20 +21041,6 @@ video {
           animation: bounce 1s infinite;
 }
 
-/* variables */
-
-:root {
-  --nav-height: 48px;
-}
-
-.navigation {
-  height: var(--nav-height);
-}
-
-.content {
-  height: calc(100% - var(--nav-height));
-}
-
 /** CSS for spinner **/
 
 .loading {
@@ -21083,6 +21069,11 @@ video {
   color: white;
   background: #2D3748;
   transition: all 250ms ease-in-out;
+}
+
+.card {
+  background: white;
+  width: 800px;
 }
 
 @media (min-width: 640px) {

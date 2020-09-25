@@ -1,24 +1,24 @@
 extends layout
 
 block content
-  div( class="w-1/2 mx-auto rounded shadow-lg border-t-8 border-gray-800 p-8 my-4")
-    div(class="mb-4 font-light tracking-widest text-2xl") Results
+  div( class="card flex flex-wrap m-auto rounded shadow-lg border-t-8 border-gray-800 p-8")
+    div(class="w-full mb-4 font-light tracking-widest text-2xl") Results
 
-    div(class="py-2")
+    div(class="w-full py-2")
       span(class="mr-2  font-bold") Models:
       each model in result.models
         span(class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-1")= model
 
-    div(class="py-2")
+    div(class="w-full py-2")
       span(class="mr-2 font-bold") Property:
       span(class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700") #{result.property}
 
-    div(class="py-2")
+    div(class="w-full py-2")
       span(class="mr-2 font-bold") Options:
       each option in result.options
         span(class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-1")= option
 
-    div(class="py-2")
+    div(class="w-full py-2")
       span(class="font-bold") Outputs:
 
       div(class="py-4 px-2")
@@ -33,12 +33,12 @@ block content
               pre(class="mt-4 flex flex-col overflow-auto max-w-6xl h-screen/3 text-sm border border-gray-700 p-1").
                 #{output.stdout}
 
-    div(class="py-2")
+    div(class="w-full py-2")
       span(class="mr-2 font-bold") Generated files:
       each output in result.outputs
         each file in output.files
           span(onclick=`downloadFile('${result.identifier}', '${file}');`, class="cursor-pointer inline-block hover:bg-gray-700 hover:text-white bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 m-1")= file
 
-    div(class="pt-6")
+    div(class="w-full pt-4")
       button(onclick=`downloadFile('${result.identifier}', '${result.file}');`, class="text-lg font-semibold bg-gray-800 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-black") Download All
 
