@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  div( class="w-auto mx-auto rounded shadow-lg border-t-8 border-gray-800 p-8 my-4")
+  div( class="w-1/2 mx-auto rounded shadow-lg border-t-8 border-gray-800 p-8 my-4")
     div(class="mb-4 font-light tracking-widest text-2xl") Results
 
     div(class="py-2")
@@ -21,11 +21,11 @@ block content
     div(class="py-2")
       span(class="font-bold") Outputs:
 
-      div(id="tabs", class="py-4")
-        div(class="tab-slider--nav")
+      div(class="py-4 px-2")
+        div(class="tab-slider--nav w-full mb-2 float-left select-none ")
           ul(class="tab-slider--tabs")
             each output, index in result.outputs
-              li(class="tab-slider--trigger", rel=`tabs-${index}`) #{output.prefix}
+              li(class="tab-slider--trigger text-sm font-bold text-gray-700 py-1 px-3 inline-block rounded-full cursor-pointer border border-gray-700 mx-1", rel=`tabs-${index}`) #{output.prefix}
 
         div(class="tab-slider--container")
           each output, index in result.outputs
@@ -37,7 +37,7 @@ block content
       span(class="mr-2 font-bold") Generated files:
       each output in result.outputs
         each file in output.files
-          span(onclick=`downloadFile('${result.identifier}', '${file}');`, class="cursor-pointer inline-block hover:bg-gray-700 hover:text-white bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-1")= file
+          span(onclick=`downloadFile('${result.identifier}', '${file}');`, class="cursor-pointer inline-block hover:bg-gray-700 hover:text-white bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 m-1")= file
 
     div(class="pt-6")
       button(onclick=`downloadFile('${result.identifier}', '${result.file}');`, class="text-lg font-semibold bg-gray-800 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-black") Download All
