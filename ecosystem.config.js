@@ -9,6 +9,7 @@ module.exports = {
       log_date_format: 'YYYY-MM-DD HH:mm Z',
       env: {
         NODE_ENV: 'development',
+        DEBUG: 'imitator-runner:*',
       },
       env_production: {
         NODE_ENV: 'production',
