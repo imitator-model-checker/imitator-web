@@ -42,10 +42,11 @@ function getImitatorCommand(mode) {
  * @param {Array<String>} options List of imitator options
  * @param {Number} timeout timeout of execution
  * @param {String} outputFolder folder where the imitator output will be saved
+ * @param {any} socket socket listening the output of imitator
  *
  * @returns Promise<String>
  */
-function runImitator(model, property, options, timeout, outputFolder) {
+function runImitator(model, property, options, timeout, outputFolder, socket) {
   return new Promise((resolve, reject) => {
     // result of imitator
     const result = {
@@ -78,15 +79,19 @@ function runImitator(model, property, options, timeout, outputFolder) {
     }
 
     // accumulate imitator output
+    imitator.stdout.setEncoding('utf-8');
     imitator.stdout.on('data', (stdout) => {
       // @ts-ignore
       result.output += stripAnsi(stdout.toString());
+      socket.emit('imitator_output', result.output);
     });
 
     // accumulate imitator error output
+    imitator.stderr.setEncoding('utf-8');
     imitator.stderr.on('data', (stderr) => {
       // @ts-ignore
       result.error += stripAnsi(stderr.toString());
+      socket.emit('imitator_output', result.error);
     });
 
     // return result when imitator finishes

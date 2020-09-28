@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    title Imitator Runner
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel="apple-touch-icon", sizes="180x180", href="/images/favicon/apple-touch-icon.png")
+    link(rel="icon", type="image/png" sizes="32x32", href="/images/favicon/favicon-32x32.png")
+    link(rel="icon", type="image/png" sizes="16x16", href="/images/favicon/favicon-16x16.png")
+    link(rel="manifest", href="/images/favicon/site.webmanifest")
+    script(src="/socket.io/socket.io.js")
+    script(src='/javascripts/download.js')
+    script(src='/javascripts/jquery-3.5.1.min.js')
+    script(src='/javascripts/utils.js')
+    script(src='/javascripts/sockets.js')
+  body
+    div(class="h-screen flex flex-col")
+      include ../partials/header
+
+      div(class="w-full bg-gray-100 flex flex-grow p-8")
+        block content
+        div(id="spinner")

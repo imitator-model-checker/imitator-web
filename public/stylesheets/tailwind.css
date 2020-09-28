@@ -4,6 +4,51 @@
 
 @tailwind utilities;
 
+:root {
+  --card-md-height: 580px;
+}
+
+.card {
+  @apply bg-white border-t-8 border-gray-800 rounded overflow-hidden shadow-md relative p-8;
+}
+
+.card-md {
+  height: var(--card-md-height);
+}
+
+.card-title {
+  @apply w-full tracking-widest text-2xl font-light mb-4
+}
+
+.label {
+  @apply block text-gray-900 font-bold mb-2;
+}
+
+.input {
+  @apply border border-gray-800 rounded p-2 font-mono text-sm text-gray-900;
+}
+
+.submit-button {
+  @apply font-semibold bg-gray-800 text-white rounded-lg shadow-xl text-lg px-6 py-3;
+}
+
+.submit-button:hover {
+  @apply text-white bg-black;
+}
+
+.code-block {
+  @apply font-mono text-sm border border-gray-700 p-1 overflow-auto;
+}
+
+.chip {
+  @apply inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700;
+}
+
+.chip-outlined {
+   @apply inline-block rounded-full px-3 py-1 text-sm font-semibold text-gray-700 border border-gray-700;
+}
+
+
 /** CSS for spinner **/
 
 .loading {

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const config = require('../config');
 const cron = require('node-cron');
+const config = require('../config');
 
 /**
 # ┌──────────── minute (0 - 59)

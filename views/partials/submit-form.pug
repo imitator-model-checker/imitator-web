@@ -1,0 +1,22 @@
+div(class="card card-md w-3/4 m-auto col-span-2")
+  div(class="card-title") Input
+
+  form(id="imitator-form")
+    div(class="mb-4")
+      label(for="models", class="label") Models
+      input(name="models", type="file", id="models", placeholder="~/my-model.imi", required, accept=".imi", multiple, class="input w-full")
+
+    div(class="mb-4")
+      label(for="property", class="label") Property
+      input(name="property", type="file", id="property", placeholder="~/my-property.imiprop", accept=".imiprop", required, class="input w-full")
+
+    div(class="mb-4")
+      label(for="options", class="label") Options
+      input(name="options", type="text", id="options", placeholder="-depth-limit=10, -statistics", class="input w-full")
+
+    div(class="mb-4")
+      label(for="timeout", class="label") Timeout (s)
+      input(name="timeout", type="text", id="timeout", placeholder="10", class="input w-full")
+
+    div(class="pt-6")
+      button(type="submit", class="submit-button w-full") Run
