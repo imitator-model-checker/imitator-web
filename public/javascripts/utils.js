@@ -137,27 +137,6 @@ function renderOutput(output) {
     );
   }
 
-  // render generated files
-  let generatedFiles = output.outputs.reduce(
-    (acc, o) => acc.concat(...o.files),
-    []
-  );
-  generatedFiles = [...new Set(generatedFiles)].sort();
-
-  for (const file of generatedFiles) {
-    // @ts-ignore
-    $('#output-files').append(
-      `<span onclick="downloadFile('${output.identifier}', ${file});" class="file chip cursor-pointer mr-1">${file}</span>`
-    );
-  }
-
-  // render download button
-  // @ts-ignore
-  $('#download-button').attr(
-    'onclick',
-    `downloadFile('${output.identifier}', '${output.file}');`
-  );
-
   // render outputs
   for (const [index, stdout] of output.outputs.entries()) {
     // tab names
@@ -169,11 +148,18 @@ function renderOutput(output) {
     // tab container
     // @ts-ignore
     $('#output-stdout .tab-slider--container').append(
-      `<div id=tabs-${index} class="tab-slider--body"><pre class="code-block h-64">${stdout.stdout}</pre></div>`
+      `<div id=tabs-${index} class="tab-slider--body"><pre id="stdout-${stdout.prefix}" class="code-block h-64"></pre></div>`
     );
   }
 
   initializeTabs();
+
+  // // render download button
+  // // @ts-ignore
+  // $('#download-button').attr(
+  //   'onclick',
+  //   `downloadFile('${output.identifier}', '${output.file}');`
+  // );
 }
 
 // @ts-ignore
