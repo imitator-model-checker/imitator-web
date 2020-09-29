@@ -1,7 +1,7 @@
-const fs = require('fs');
-const path = require('path');
 const cron = require('node-cron');
 const config = require('../config');
+const { promisify } = require('util');
+const rimraf = promisify(require('rimraf'));
 
 /**
 # ┌──────────── minute (0 - 59)
@@ -20,9 +20,7 @@ const config = require('../config');
  * @param {string} directory directory where the files are stored
  */
 async function removeFilesInDirectory(directory) {
-  const files = await fs.promises.readdir(directory);
-
-  Promise.all(files.map((f) => fs.promises.unlink(path.join(directory, f))));
+  await rimraf(`${directory}/*`);
 }
 
 /**
