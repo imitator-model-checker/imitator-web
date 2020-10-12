@@ -181,6 +181,16 @@ function renderOutput(output) {
 }
 
 /**
+ * Clean all the outputs from the view
+ */
+function cleanArtifactOutput() {
+  // @ts-ignore
+  $('#artifact-stdout').text('');
+  // @ts-ignore
+  $('.file', '#artifact-output-files').remove();
+}
+
+/**
  * Render the artifact output in the view
  *
  * @param {Object} output artifact output
@@ -190,6 +200,8 @@ function renderArtifactOutput(output) {
   $('#artifact-output-card').removeClass('hidden');
   // @ts-ignore
   $('#artifact-form').parent().removeClass('col-span-2');
+
+  cleanArtifactOutput();
 }
 
 /**

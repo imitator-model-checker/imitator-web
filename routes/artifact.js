@@ -1,4 +1,8 @@
+const path = require('path');
 const express = require('express');
+const config = require('../config');
+const utils = require('../libs/utils');
+const { v4: uuidv4 } = require('uuid');
 const { artifacts } = require('../config/artifact');
 const { runArtifact } = require('../libs/artifact');
 const debug = require('debug')('imitator-runner:artifact-api');
@@ -113,11 +117,26 @@ router.post('/run', async (req, res) => {
     let options = req.body.options || '';
     options = options.length !== 0 ? options.trim().split(' ') : [];
 
+    // TODO: filter output option
+
+    // output file
+    const identifier = uuidv4();
+    const outputFolder = path.join(config.uploadFolder, identifier);
+    await utils.createFolder(outputFolder);
+
+    const outputArg = artifact.output_arg;
+    if (outputArg) {
+      const outputFile = path.join(outputFolder, `${script}-output.txt`);
+      options = options.concat([outputArg, outputFile]);
+    }
+    debug('artifact options: ', options);
+
     const output = await runArtifact(
       artifactName,
       artifact.image,
       script,
       options,
+      outputFolder,
       io
     );
     debug('artifact output: ', output);

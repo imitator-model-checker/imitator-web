@@ -1,5 +1,7 @@
 const fs = require('fs');
 const path = require('path');
+const stream = require('stream');
+const stripAnsi = require('strip-ansi');
 
 /**
  * Creates a folder if it does not exists
@@ -42,4 +44,20 @@ async function moveToFolder(destination, files) {
  */
 const flatArray = (arr) => [].concat(...arr);
 
-module.exports = { moveToFolder, createFolder, flatArray };
+/**
+ * Remove ANSI characters from a stream
+ */
+const createStripAnsiStream = () =>
+  new stream.Transform({
+    transform: (chunk, enconding, done) => {
+      const result = stripAnsi(chunk.toString());
+      done(null, result);
+    },
+  });
+
+module.exports = {
+  moveToFolder,
+  createFolder,
+  flatArray,
+  createStripAnsiStream,
+};
