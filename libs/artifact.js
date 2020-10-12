@@ -1,8 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const glob = require('fast-glob');
-const { createStripAnsiStream } = require('../libs/utils');
+const { v4: uuidv4 } = require('uuid');
 const { spawn } = require('child_process');
+const { createStripAnsiStream } = require('../libs/utils');
 
 /**
  *
@@ -15,10 +16,14 @@ const { spawn } = require('child_process');
  */
 function runArtifact(name, image, script, options, outputFolder, socket) {
   return new Promise((resolve, reject) => {
+    const containerName = `${name}-${uuidv4()}`;
+
     // get the corresponding artifact command to be executed
     const artifact = spawn('docker', [
       'run',
       '--rm',
+      '--name',
+      containerName,
       '-v',
       `${outputFolder}:${outputFolder}`,
       image,
@@ -66,8 +71,28 @@ function runArtifact(name, image, script, options, outputFolder, socket) {
 
     resolve({
       pid: artifact.pid,
+      container: containerName,
     });
   });
 }
 
-module.exports = { runArtifact };
+/**
+ * Stop a running artifact
+ *
+ * @param {String} containerName docker container name
+ */
+function stopArtifact(containerName) {
+  return new Promise((resolve, reject) => {
+    const command = spawn('docker', ['stop', containerName]);
+
+    // catch error
+    command.on('error', (error) => reject(error));
+
+    // return result when the artifact finishes
+    command.on('exit', async (code) => {
+      return resolve();
+    });
+  });
+}
+
+module.exports = { runArtifact, stopArtifact };

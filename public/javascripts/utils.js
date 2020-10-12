@@ -25,6 +25,59 @@ async function downloadFile(identifier, file) {
 }
 
 /**
+ * Enable run button
+ */
+function enableRunButton() {
+  // @ts-ignore
+  $('#run-artifact-button').prop('disabled', false);
+}
+
+/**
+ * Disable run button
+ */
+function disableRunButton() {
+  // @ts-ignore
+  $('#run-artifact-button').prop('disabled', true);
+}
+
+/**
+ * Hide stop button
+ */
+function hideStopButton() {
+  // @ts-ignore
+  $('#stop-artifact-button').hide();
+}
+
+/**
+ * Show stop button
+ */
+function showStopButton() {
+  // @ts-ignore
+  $('#stop-artifact-button').show();
+}
+
+/**
+ * Stop a job  running an artifact
+ *
+ * @param {String} identifier job identifier
+ */
+async function stopArtifact(identifier) {
+  const api = '/api/artifact/stop';
+
+  const res = await fetch(api, {
+    method: 'POST',
+    body: JSON.stringify({ identifier }),
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+
+  hideSpinner();
+  hideStopButton();
+  enableRunButton();
+}
+
+/**
  * Send a job to imitator
  *
  * @param {Object} parameters request's body
@@ -188,6 +241,7 @@ function cleanArtifactOutput() {
   $('#artifact-stdout').text('');
   // @ts-ignore
   $('.file', '#artifact-output-files').remove();
+  showStopButton();
 }
 
 /**
@@ -202,6 +256,13 @@ function renderArtifactOutput(output) {
   $('#artifact-form').parent().removeClass('col-span-2');
 
   cleanArtifactOutput();
+
+  // render stop button
+  // @ts-ignore
+  $('#stop-artifact-button').attr(
+    'onclick',
+    `stopArtifact('${output.identifier}');`
+  );
 }
 
 /**
@@ -253,6 +314,7 @@ $('document').ready(function () {
       renderOutput(imitatorOutput.result);
       hideSpinner();
     } catch (err) {
+      hideSpinner();
       console.log('submit error: ', err);
     }
   });
@@ -263,14 +325,17 @@ $('document').ready(function () {
       event.preventDefault();
 
       showSpinner();
+      disableRunButton();
+
       const parameters = new FormData(document.querySelector('#artifact-form'));
       // @ts-ignore
       const json = JSON.stringify(Object.fromEntries(parameters));
       const artifactOutput = await runArtifact(json);
 
-      renderArtifactOutput(artifactOutput);
-      hideSpinner();
+      renderArtifactOutput(artifactOutput.result);
     } catch (err) {
+      enableRunButton();
+      hideSpinner();
       console.log('submit error: ', err);
     }
   });

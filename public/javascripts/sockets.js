@@ -42,3 +42,13 @@ socket.on('artifact_output', function (name, type, message) {
     }
   }
 });
+
+/** Listening for artifact output */
+socket.on('artifact_exit', function () {
+  // @ts-ignore
+  hideSpinner();
+  // @ts-ignore
+  enableRunButton();
+  // @ts-ignore
+  hideStopButton();
+});

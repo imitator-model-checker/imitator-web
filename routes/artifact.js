@@ -4,7 +4,7 @@ const config = require('../config');
 const utils = require('../libs/utils');
 const { v4: uuidv4 } = require('uuid');
 const { artifacts } = require('../config/artifact');
-const { runArtifact } = require('../libs/artifact');
+const { runArtifact, stopArtifact } = require('../libs/artifact');
 const debug = require('debug')('imitator-runner:artifact-api');
 
 const router = express.Router();
@@ -79,6 +79,9 @@ router.get('/', (req, res) => {
  *                    name:
  *                      description: artifact
  *                      type: string
+ *                    identifier:
+ *                      description: job identifier
+ *                      type: string
  *                    script:
  *                      description: script executed
  *                      type: string
@@ -143,14 +146,54 @@ router.post('/run', async (req, res) => {
 
     const result = {
       name: artifactName,
+      identifier: output.container,
       script,
       options,
-      output,
     };
 
     debug('artifact result: ', result);
 
     res.json({ result });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+/**
+ * @swagger
+ *
+ * /api/artifact/stop:
+ *  post:
+ *    description: Stop artifact
+ *    tags:
+ *      - artifact
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              identifier:
+ *                description: job identifier
+ *                type: string
+ *                required: true
+ *    responses:
+ *      200:
+ *        description: artifact stopped successfully
+ */
+router.post('/stop', async (req, res) => {
+  try {
+    const identifier = req.body.identifier;
+
+    if (!identifier) {
+      throw new Error('identifier is required');
+    }
+
+    debug('identifier: ', identifier);
+    await stopArtifact(identifier);
+
+    res.status(200).end();
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
