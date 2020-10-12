@@ -56,9 +56,6 @@ router.get('/', (req, res) => {
  *              options:
  *                description: imitator options
  *                type: string
- *              timeout:
- *                description: timeout of execution
- *                type: string
  *    responses:
  *      200:
  *        description: Information about the imitator execution

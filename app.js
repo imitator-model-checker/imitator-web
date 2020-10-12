@@ -6,6 +6,7 @@ const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
 const imitatorRouter = require('./routes/imitator');
+const artifactRouter = require('./routes/artifact');
 const swaggerRouter = require('./routes/documentation');
 
 const app = express();
@@ -23,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api/docs', swaggerRouter);
 app.use('/api/imitator', imitatorRouter);
+app.use('/api/artifact', artifactRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

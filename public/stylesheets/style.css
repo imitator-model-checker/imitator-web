@@ -21095,6 +21095,23 @@ video {
   color: rgba(26, 32, 44, var(--text-opacity));
 }
 
+.select {
+  border-width: 1px;
+  --bg-opacity: 1;
+  background-color: #fff;
+  background-color: rgba(255, 255, 255, var(--bg-opacity));
+  --border-opacity: 1;
+  border-color: #2d3748;
+  border-color: rgba(45, 55, 72, var(--border-opacity));
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.875rem;
+  --text-opacity: 1;
+  color: #1a202c;
+  color: rgba(26, 32, 44, var(--text-opacity));
+}
+
 .submit-button {
   font-weight: 600;
   --bg-opacity: 1;
@@ -21119,6 +21136,25 @@ video {
   --bg-opacity: 1;
   background-color: #000;
   background-color: rgba(0, 0, 0, var(--bg-opacity));
+}
+
+.submit-button:disabled {
+  font-weight: 600;
+  --bg-opacity: 1;
+  background-color: #2d3748;
+  background-color: rgba(45, 55, 72, var(--bg-opacity));
+  --text-opacity: 1;
+  color: #fff;
+  color: rgba(255, 255, 255, var(--text-opacity));
+  border-radius: 0.5rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  font-size: 1.125rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .code-block {

@@ -41,6 +41,24 @@ async function runImitator(parameters) {
 }
 
 /**
+ * Send a job to artifact runner
+ *
+ * @param {Object} parameters request's body
+ */
+async function runArtifact(parameters) {
+  const response = await fetch('/api/artifact/run', {
+    method: 'POST',
+    body: parameters,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const data = await response.json();
+
+  return data;
+}
+
+/**
  * Show spinner
  */
 function showSpinner() {
@@ -162,8 +180,55 @@ function renderOutput(output) {
   // );
 }
 
+/**
+ * Render the artifact output in the view
+ *
+ * @param {Object} output artifact output
+ */
+function renderArtifactOutput(output) {
+  // @ts-ignore
+  $('#artifact-output-card').removeClass('hidden');
+  // @ts-ignore
+  $('#artifact-form').parent().removeClass('col-span-2');
+}
+
+/**
+ * Render the artifact menu
+ */
+function initializeArtifactMenu() {
+  // @ts-ignore
+  $('#script').children('option:gt(0)').hide();
+  // @ts-ignore
+  $('#artifact-form button').prop('disabled', true);
+
+  // @ts-ignore
+  $('#artifact').change(function () {
+    // @ts-ignore
+    const selected = $(this).val();
+    const disable = selected === 'none';
+
+    // @ts-ignore
+    $('#script').children('option').hide();
+
+    // @ts-ignore
+    $('#script')
+      .children('option[class^=' + selected + ']')
+      .show();
+
+    // @ts-ignore
+    $('#script option:visible:first').prop('selected', true);
+
+    // @ts-ignore
+    $('#script').prop('disabled', disable);
+    // @ts-ignore
+    $('#artifact-form button').prop('disabled', disable);
+  });
+}
+
 // @ts-ignore
 $('document').ready(function () {
+  initializeArtifactMenu();
+
   // @ts-ignore
   $('#imitator-form').submit(async function (event) {
     try {
@@ -174,6 +239,24 @@ $('document').ready(function () {
       const imitatorOutput = await runImitator(parameters);
 
       renderOutput(imitatorOutput.result);
+      hideSpinner();
+    } catch (err) {
+      console.log('submit error: ', err);
+    }
+  });
+
+  // @ts-ignore
+  $('#artifact-form').submit(async function (event) {
+    try {
+      event.preventDefault();
+
+      showSpinner();
+      const parameters = new FormData(document.querySelector('#artifact-form'));
+      // @ts-ignore
+      const json = JSON.stringify(Object.fromEntries(parameters));
+      const artifactOutput = await runArtifact(json);
+
+      renderArtifactOutput(artifactOutput);
       hideSpinner();
     } catch (err) {
       console.log('submit error: ', err);

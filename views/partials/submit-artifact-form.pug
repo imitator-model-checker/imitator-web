@@ -1,0 +1,25 @@
+div(class="card w-3/4 m-auto col-span-2")
+  div(class="card-title") Artifact
+
+  form(id="artifact-form")
+    div(class="mb-4")
+      label(for="artifact", class="label") Artifact
+      select(name="artifact", id="artifact", class="select w-full leading-tight")
+        option(value='none') Please Select
+        each name in names
+          option(value=name) #{name}
+
+    div(class="mb-4")
+      label(for="script", class="label") Script
+      select(name="script", id=`script`, class="select w-full")
+        option(value='', class="none")
+        each artifact, name in artifacts
+          each script in artifact.scripts
+            option(value=script, class=`${name}`) #{script}
+
+    div(class="mb-4")
+      label(for="options", class="label") Options
+      input(name="options", type="text", id="options", placeholder="-S", class="input w-full")
+
+    div(class="pt-6")
+      button(type="submit", class="submit-button w-full") Run

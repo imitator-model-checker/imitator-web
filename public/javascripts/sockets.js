@@ -3,6 +3,7 @@
 
 const socket = io();
 
+/** Listening for imitator output */
 socket.on('imitator_output', function (model, type, message) {
   if (model) {
     if (type === 'stdout' || type === 'error') {
@@ -18,6 +19,16 @@ socket.on('imitator_output', function (model, type, message) {
           `<span onclick="downloadFile('${message.path}', '${file}');" class="file chip cursor-pointer mr-1 mb-1">${file}</span>`
         );
       }
+    }
+  }
+});
+
+/** Listening for artifact output */
+socket.on('artifact_output', function (name, type, message) {
+  if (name) {
+    if (type === 'stdout' || type === 'error') {
+      // @ts-ignore
+      $(`#artifact-stdout`).text(message);
     }
   }
 });
