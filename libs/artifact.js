@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const glob = require('fast-glob');
 const { v4: uuidv4 } = require('uuid');
+const stripAnsi = require('strip-ansi');
 const { spawn } = require('child_process');
 const { createStripAnsiStream } = require('../libs/utils');
 
@@ -35,14 +36,16 @@ function runArtifact(name, image, script, options, outputFolder, socket) {
 
     // accumulate artifact output
     artifact.stdout.setEncoding('utf-8');
-    artifact.stdout.pipe(ansiTransformer).on('data', (stdout) => {
-      socket.emit('artifact_output', name, 'stdout', stdout.toString());
+    artifact.stdout.on('data', (stdout) => {
+      const output = stripAnsi(stdout.toString());
+      socket.emit('artifact_output', name, 'stdout', output);
     });
 
     // accumulate artifact error output
     artifact.stderr.setEncoding('utf-8');
-    artifact.stderr.pipe(ansiTransformer).on('data', (stderr) => {
-      socket.emit('artifact_output', name, 'error', stderr.toString());
+    artifact.stderr.on('data', (stderr) => {
+      const error = stripAnsi(stderr.toString());
+      socket.emit('artifact_output', name, 'error', error);
     });
 
     // create log
