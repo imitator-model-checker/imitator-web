@@ -11,6 +11,7 @@
   "dependencies": {
     "archiver": "^5.0.2",
     "cookie-parser": "~1.4.4",
+    "date-fns": "^2.16.1",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "fast-glob": "^3.2.4",
@@ -20,7 +21,6 @@
     "node-cron": "^2.0.3",
     "pm2": "^4.4.1",
     "pug": "2.0.0-beta11",
-    "rimraf": "^3.0.2",
     "socket.io": "^2.3.0",
     "strip-ansi": "^6.0.0",
     "swagger-jsdoc": "^4.0.0",
