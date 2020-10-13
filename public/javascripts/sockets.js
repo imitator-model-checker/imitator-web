@@ -8,7 +8,7 @@ socket.on('imitator_output', function (model, type, message) {
   if (model) {
     if (type === 'stdout' || type === 'error') {
       // @ts-ignore
-      $(`#stdout-${model}`).text(message);
+      $(`pre[id="stdout-${model}"]`).text(message);
     }
 
     // render generated files
