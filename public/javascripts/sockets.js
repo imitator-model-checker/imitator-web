@@ -23,6 +23,16 @@ socket.on('imitator_output', function (model, type, message) {
   }
 });
 
+/** Listening for imitator exit */
+socket.on('imitator_exit', function () {
+  // @ts-ignore
+  hideSpinner();
+  // @ts-ignore
+  enableRunButton();
+  // @ts-ignore
+  hideStopButton();
+});
+
 /** Listening for artifact output */
 socket.on('artifact_output', function (name, type, message) {
   if (name) {

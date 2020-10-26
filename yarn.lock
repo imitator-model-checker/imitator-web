@@ -2899,6 +2899,11 @@ ps-list@6.3.0:
   resolved "https://registry.yarnpkg.com/ps-list/-/ps-list-6.3.0.tgz#a2b775c2db7d547a28fbaa3a05e4c281771259be"
   integrity sha512-qau0czUSB0fzSlBOQt0bo+I2v6R+xiQdj78e1BR/Qjfl5OHWJ/urXi8+ilw1eHe+5hSeDI1wrwVTgDp2wst4oA==
 
+ps@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/ps/-/ps-1.0.0.tgz#fdec82fe059e564ad2618dab2cc3d4af308f55fa"
+  integrity sha512-H4X+wwtupakW7DvEkswKuYjfGO83cVkyQUoDouys8bFrFFBTGPq9NxNaM+1yfX8Tn+7Vf6zcq2IjRaNr2nF+RA==
+
 pug-attrs@^2.0.2:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/pug-attrs/-/pug-attrs-2.0.4.tgz#b2f44c439e4eb4ad5d4ef25cac20d18ad28cc336"

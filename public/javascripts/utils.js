@@ -78,6 +78,28 @@ async function stopArtifact(identifier) {
 }
 
 /**
+ * Stop an imitator job  running
+ *
+ * @param {String} identifiers job identifiers in a string separated by -
+ */
+async function stopImitator(identifiers) {
+  const api = '/api/imitator/stop';
+  const pids = identifiers.split('-');
+
+  const res = await fetch(api, {
+    method: 'POST',
+    body: JSON.stringify({ identifiers: pids }),
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+
+  hideSpinner();
+  hideStopButton();
+  enableRunButton();
+}
+
+/**
  * Send a job to imitator
  *
  * @param {Object} parameters request's body
@@ -173,6 +195,8 @@ function cleanOutput() {
   $('li', '.tab-slider--tabs').remove();
   // @ts-ignore
   $('.tab-slider--body', '.tab-slider--container').remove();
+
+  showStopButton();
 }
 
 /**
@@ -224,6 +248,11 @@ function renderOutput(output) {
   }
 
   initializeTabs();
+
+  const pids = output.outputs.map((o) => o.pid).join('-');
+  // render stop button
+  // @ts-ignore
+  $('#stop-artifact-button').attr('onclick', `stopImitator('${pids}');`);
 
   // // render download button
   // // @ts-ignore
@@ -308,12 +337,15 @@ $('document').ready(function () {
       event.preventDefault();
 
       showSpinner();
+      disableRunButton();
+
       const parameters = new FormData(document.querySelector('#imitator-form'));
       const imitatorOutput = await runImitator(parameters);
 
       renderOutput(imitatorOutput.result);
       hideSpinner();
     } catch (err) {
+      enableRunButton();
       hideSpinner();
       console.log('submit error: ', err);
     }

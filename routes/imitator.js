@@ -6,7 +6,7 @@ const utils = require('../libs/utils');
 const { v4: uuidv4 } = require('uuid');
 const upload = require('../libs/multer');
 const debug = require('debug')('imitator-runner:api');
-const { runImitator, zipImitatorFiles } = require('../libs/imitator');
+const { runImitator, stopImitator } = require('../libs/imitator');
 
 const router = express.Router();
 
@@ -194,6 +194,50 @@ router.post('/download', async (req, res) => {
     await fs.promises.access(fullPath);
 
     res.download(fullPath);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+/**
+ * @swagger
+ *
+ * /api/imitator/stop:
+ *  post:
+ *    description: Stop imitator jobs
+ *    tags:
+ *      - imitator
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              identifiers:
+ *                description: job identifiers
+ *                required: true
+ *                type: array
+ *                items:
+ *                  type: string
+ *    responses:
+ *      200:
+ *        description: imitator jobs stopped successfully
+ */
+router.post('/stop', async (req, res) => {
+  try {
+    const identifiers = req.body.identifiers;
+
+    if (!identifiers.length) {
+      throw new Error('An identifier is required');
+    }
+
+    debug('identifiers: ', identifiers);
+
+    await Promise.all(identifiers.map(async (i) => stopImitator(i)));
+    console.log('stopped all');
+
+    res.status(200).end();
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

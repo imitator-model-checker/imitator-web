@@ -1,5 +1,7 @@
+const ps = require('ps');
 const path = require('path');
 const glob = require('fast-glob');
+const process = require('process');
 const config = require('../config');
 const stripAnsi = require('strip-ansi');
 const { flatArray } = require('./utils');
@@ -100,6 +102,8 @@ function runImitator(model, property, options, outputFolder, socket) {
         path: path.basename(outputFolder),
         files: files.map((f) => path.basename(f)),
       });
+
+      socket.emit('imitator_exit');
     });
 
     // catch error
@@ -146,4 +150,25 @@ async function zipImitatorFiles(outputs, outputFolder) {
   return zipFilename;
 }
 
-module.exports = { runImitator, zipImitatorFiles };
+/**
+ * Stop a running imitator job
+ *
+ * @param {Number} pid imitator job pid
+ */
+async function stopImitator(pid) {
+  // @ts-ignore
+  const processes = await ps({ pid });
+
+  return new Promise((resolve, reject) => {
+    if (!processes.length) return resolve();
+
+    // catch error
+    process.on('error', (error) => reject(error));
+
+    // kill job
+    process.kill(pid);
+    return resolve();
+  });
+}
+
+module.exports = { runImitator, zipImitatorFiles, stopImitator };
