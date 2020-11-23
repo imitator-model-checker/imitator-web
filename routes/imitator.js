@@ -98,21 +98,30 @@ router.post('/run', upload, async (req, res) => {
     // @ts-ignore
     const models = req.files.models;
 
-    // @ts-ignore
-    const property = req.files.property[0];
-
     // check required fields
-    if (models.length === 0 || !property) {
-      throw new Error('Model and property fields are required');
+    if (models.length === 0) {
+      throw new Error('Model field is required');
     }
+
+    // root folder where the outputs will be stored
+    const destination = models[0].destination;
 
     // identifier of the run
     const identifier = uuidv4();
-    const outputFolder = path.join(property.destination, identifier);
+    const outputFolder = path.join(destination, identifier);
     debug('output folder: ', outputFolder);
 
-    const propertyPath = await utils.moveToFolder(outputFolder, [property]);
-    debug('property file: ', propertyPath[0]);
+    // @ts-ignore
+    const property = req.files.property && req.files.property[0];
+    debug('property: ', property);
+
+    let propertyPath = null;
+
+    // @ts-ignore
+    if (property) {
+      propertyPath = (await utils.moveToFolder(outputFolder, [property]))[0];
+      debug('property file: ', propertyPath);
+    }
 
     const modelsPath = await utils.moveToFolder(outputFolder, models);
     debug('model paths: ', modelsPath);
@@ -132,7 +141,7 @@ router.post('/run', upload, async (req, res) => {
     // run all the experiments asynchronously
     const outputs = await Promise.all(
       modelsPath.map((m) =>
-        runImitator(m, propertyPath[0], options, outputFolder, io)
+        runImitator(m, propertyPath, options, outputFolder, io)
       )
     );
     debug('imitator outputs: ', outputs);
@@ -142,8 +151,10 @@ router.post('/run', upload, async (req, res) => {
       identifier,
       outputs,
       models: models.map((m) => m.originalname),
-      property: property.originalname,
+      property: property && property.originalname,
     };
+
+    debug('result: ', result);
 
     res.json({ result });
   } catch (error) {
