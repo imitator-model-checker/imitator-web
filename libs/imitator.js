@@ -66,11 +66,11 @@ function runImitator(model, property, options, outputFolder, socket) {
     // imitator execution
     const imitator = spawn(command, [
       ...extraArguments,
-      model,
-      ...propertyOptional,
       '-output-prefix',
       outputPrefix,
       ...options,
+      model,
+      ...propertyOptional,
     ]);
 
     // accumulate imitator output

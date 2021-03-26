@@ -10,6 +10,8 @@ module.exports = {
       env: {
         NODE_ENV: 'development',
         DEBUG: 'imitator-runner:*',
+        IMITATOR_MODE: 'docker',
+        IMITATOR_PATH: 'imitator/imitator:latest',
       },
       env_production: {
         NODE_ENV: 'production',
