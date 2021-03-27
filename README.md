@@ -23,6 +23,7 @@ yarn start
 ## Configuration
 
 - `UPLOAD_FOLDER`: Set the folder where the files will be saved temporarily. Default: `/tmp/imitator-runner`.
+- `BENCHMARKS_FOLDER`: Set the folder where the benchmark files are stored. Default: `./benchmarks`.
 - `IMITATOR_MODE`: Set the mode how `imitator` will be executed. Default: `binary`. The possible values are
   - `binary`: if the `imitator` binary will be used
   - `docker`: if the `imitator` docker image will be used

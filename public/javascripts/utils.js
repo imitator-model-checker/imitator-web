@@ -371,4 +371,15 @@ $('document').ready(function () {
       console.log('submit error: ', err);
     }
   });
+
+  // @ts-ignore
+  $('#benchmark-toggle').on('click', function () {
+    if ($('#benchmark-toggle').is(':checked')) {
+      $('#models.input').hide().attr('disabled', true);
+      $('#models.select').show().attr('disabled', false);
+    } else {
+      $('#models.select').hide().attr('disabled', true);
+      $('#models.input').show().attr('disabled', false);
+    }
+  });
 });

@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const stream = require('stream');
 const stripAnsi = require('strip-ansi');
+const { getBenchmarkModelPath } = require('./benchmark');
 
 /**
  * Creates a folder if it does not exists
@@ -55,9 +56,31 @@ const createStripAnsiStream = () =>
     },
   });
 
+/**
+ * Copy benchmark files to a folder
+ *
+ * @param {String} destination new destination folder
+ * @param {Array} names array of benchmark to be copied
+ *
+ * @returns Promise<Object>
+ */
+async function copyBenchmarksToFolder(destination, benchmarks) {
+  await createFolder(destination);
+
+  const files = benchmarks.map((b) => getBenchmarkModelPath(b));
+  await Promise.all(
+    files.map((f) => {
+      fs.promises.copyFile(f, path.join(destination, path.basename(f)));
+    })
+  );
+
+  return files.map((f) => path.join(destination, path.basename(f)));
+}
+
 module.exports = {
   moveToFolder,
   createFolder,
   flatArray,
   createStripAnsiStream,
+  copyBenchmarksToFolder,
 };

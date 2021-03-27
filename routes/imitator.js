@@ -5,6 +5,7 @@ const config = require('../config');
 const utils = require('../libs/utils');
 const { v4: uuidv4 } = require('uuid');
 const upload = require('../libs/multer');
+const { uploadFolder } = require('../config/index');
 const debug = require('debug')('imitator-runner:api');
 const { runImitator, stopImitator } = require('../libs/imitator');
 
@@ -96,19 +97,17 @@ router.post('/run', upload, async (req, res) => {
     const io = req.app.locals.io;
 
     // @ts-ignore
-    const models = req.files.models;
+    const models = req.files.models || [];
+    const modelsBenchmark = req.body.models_benchmark || [];
 
     // check required fields
-    if (models.length === 0) {
+    if (models.length === 0 && modelsBenchmark.length === 0) {
       throw new Error('Model field is required');
     }
 
-    // root folder where the outputs will be stored
-    const destination = models[0].destination;
-
     // identifier of the run
     const identifier = uuidv4();
-    const outputFolder = path.join(destination, identifier);
+    const outputFolder = path.join(uploadFolder, identifier);
     debug('output folder: ', outputFolder);
 
     // @ts-ignore
@@ -123,7 +122,10 @@ router.post('/run', upload, async (req, res) => {
       debug('property file: ', propertyPath);
     }
 
-    const modelsPath = await utils.moveToFolder(outputFolder, models);
+    const modelsPath =
+      models.length !== 0
+        ? await utils.moveToFolder(outputFolder, models)
+        : await utils.copyBenchmarksToFolder(outputFolder, modelsBenchmark);
     debug('model paths: ', modelsPath);
 
     // imitator options
