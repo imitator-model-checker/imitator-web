@@ -374,6 +374,11 @@ $('document').ready(function () {
 
   // @ts-ignore
   $('#benchmark-toggle').on('click', function () {
+    // unselect items
+    $('#models.input').val('');
+    $('#models.select').val([]);
+
+    // show good HTML elements
     if ($('#benchmark-toggle').is(':checked')) {
       $('#models.input').hide().attr('disabled', true);
       $('#models.select').show().attr('disabled', false);
