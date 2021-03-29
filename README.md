@@ -41,6 +41,7 @@ editing the file `ecosystem.config.js`. The default configuration is:
   env_production: {
     NODE_ENV: 'production',
     UPLOAD_FOLDER: '/data/imitator',
+    BENCHMARKS_FOLDER: '/root/imitator/imitator/benchmarks',
     IMITATOR_MODE: 'docker',
     IMITATOR_PATH: 'imitator:latest',
     PORT: 3001,
