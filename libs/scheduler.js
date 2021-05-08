@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const config = require('../config');
 const cron = require('node-cron');
+const config = require('../config');
+const dateFns = require('date-fns');
 
 /**
 # ┌──────────── minute (0 - 59)
@@ -18,11 +19,25 @@ const cron = require('node-cron');
  * Remove all the files in a directory
  *
  * @param {string} directory directory where the files are stored
+ * @param {Number} days number of days of the oldest created file
  */
-async function removeFilesInDirectory(directory) {
+async function removeFilesInDirectory(directory, days) {
+  const folderExist = fs.promises.access(directory);
+  if (!folderExist) return;
+
+  // Compute the creation time of the allowed oldest files
+  const endTime = dateFns.subDays(new Date(), days);
   const files = await fs.promises.readdir(directory);
 
-  Promise.all(files.map((f) => fs.promises.unlink(path.join(directory, f))));
+  await Promise.all(
+    files.map(async (f) => {
+      const { ctime } = await fs.promises.stat(path.join(directory, f));
+      if (ctime <= endTime) {
+        console.log('removing:', f);
+        await fs.promises.unlink(f);
+      }
+    })
+  );
 }
 
 /**
@@ -33,7 +48,7 @@ const cleanScheduler = cron.schedule('0 0 * * *', async () => {
   console.log(
     `[cronjob] cleaning temporary imitator files in ${directory} ...`
   );
-  await removeFilesInDirectory(directory);
+  await removeFilesInDirectory(directory, parseInt(config.timeLimit));
 });
 
 /**

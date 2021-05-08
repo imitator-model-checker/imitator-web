@@ -1,0 +1,31 @@
+div(class="card w-3/4 m-auto col-span-2")
+  div(class="card-title") Input
+
+  //- Benchmark toggle button
+  label(for="benchmark-toggle", class="flex items-center cursor-pointer mb-4")
+    div(class="relative")
+      input(id="benchmark-toggle", type="checkbox", class="hidden")
+      div(class="toggle__line w-10 h-4 bg-gray-400 rounded-full shadow-inner")
+      div(class="toggle__dot absolute w-6 h-6 bg-white rounded-full shadow inset-y-0 left-0")
+    div(class="ml-3 text-gray-700 font-medium") Benchmarks
+
+  form(id="imitator-form")
+    div(class="mb-4")
+      label(for="models", class="label") Models
+      input(name="models", type="file", id="models", placeholder="~/my-model.imi", required, accept=".imi", multiple, class="input w-full")
+      select(name="models_benchmark", id="models", multiple, required, disabled, class="select w-full leading-tight hidden")
+        each files, name in models
+          optgroup(label=`${name}`)
+            each model in files
+              option(value=`${name}/${model}`, class=`${name}`) #{model}
+
+    div(class="mb-4")
+      label(for="property", class="label") Property
+      input(name="property", type="file", id="property", placeholder="~/my-property.imiprop", accept=".imiprop", class="input w-full")
+
+    div(class="mb-4")
+      label(for="options", class="label") Options
+      input(name="options", type="text", id="options", placeholder="-depth-limit=10, -statistics", class="input w-full")
+
+    div(class="pt-6")
+      button(id="run-artifact-button", type="submit", class="submit-button w-full") Run

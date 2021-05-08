@@ -1,5 +1,8 @@
 const fs = require('fs');
 const path = require('path');
+const stream = require('stream');
+const stripAnsi = require('strip-ansi');
+const { getBenchmarkModelPath } = require('./benchmark');
 
 /**
  * Creates a folder if it does not exists
@@ -42,4 +45,42 @@ async function moveToFolder(destination, files) {
  */
 const flatArray = (arr) => [].concat(...arr);
 
-module.exports = { moveToFolder, createFolder, flatArray };
+/**
+ * Remove ANSI characters from a stream
+ */
+const createStripAnsiStream = () =>
+  new stream.Transform({
+    transform: (chunk, enconding, done) => {
+      const result = stripAnsi(chunk.toString());
+      done(null, result);
+    },
+  });
+
+/**
+ * Copy benchmark files to a folder
+ *
+ * @param {String} destination new destination folder
+ * @param {Array} names array of benchmark to be copied
+ *
+ * @returns Promise<Object>
+ */
+async function copyBenchmarksToFolder(destination, benchmarks) {
+  await createFolder(destination);
+
+  const files = benchmarks.map((b) => getBenchmarkModelPath(b));
+  await Promise.all(
+    files.map((f) => {
+      fs.promises.copyFile(f, path.join(destination, path.basename(f)));
+    })
+  );
+
+  return files.map((f) => path.join(destination, path.basename(f)));
+}
+
+module.exports = {
+  moveToFolder,
+  createFolder,
+  flatArray,
+  createStripAnsiStream,
+  copyBenchmarksToFolder,
+};

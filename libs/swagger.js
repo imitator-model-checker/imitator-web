@@ -22,7 +22,7 @@ const options = {
       },
     ],
   },
-  apis: ['./routes/imitator.js'],
+  apis: ['./routes/imitator.js', './routes/artifact.js'],
 };
 
 module.exports = swaggerJSDoc(options);

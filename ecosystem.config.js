@@ -9,10 +9,14 @@ module.exports = {
       log_date_format: 'YYYY-MM-DD HH:mm Z',
       env: {
         NODE_ENV: 'development',
+        DEBUG: 'imitator-runner:*',
+        IMITATOR_MODE: 'docker',
+        IMITATOR_PATH: 'imitator/imitator:latest',
       },
       env_production: {
         NODE_ENV: 'production',
         UPLOAD_FOLDER: '/data/imitator',
+        BENCHMARKS_FOLDER: '/root/imitator/imitator/benchmarks',
         IMITATOR_MODE: 'docker',
         IMITATOR_PATH: 'imitator:latest',
         PORT: 3001,
