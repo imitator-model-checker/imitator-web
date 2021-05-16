@@ -98,7 +98,11 @@ router.post('/run', upload, async (req, res) => {
 
     // @ts-ignore
     const models = req.files.models || [];
-    const modelsBenchmark = req.body.models_benchmark || [];
+    const benchmarks = req.body.models_benchmark || [];
+
+    const modelsBenchmark = Array.isArray(benchmarks)
+      ? benchmarks
+      : [benchmarks];
 
     // check required fields
     if (models.length === 0 && modelsBenchmark.length === 0) {
