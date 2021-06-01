@@ -116,15 +116,18 @@ router.post('/run', upload, async (req, res) => {
 
     // @ts-ignore
     const property = req.files.property && req.files.property[0];
-    debug('property: ', property);
+    const propertyBenchmark = req.body.properties_benchmark;
 
     let propertyPath = null;
-
-    // @ts-ignore
-    if (property) {
-      propertyPath = (await utils.moveToFolder(outputFolder, [property]))[0];
-      debug('property file: ', propertyPath);
+    if (property || propertyBenchmark) {
+      propertyPath = property
+        ? (await utils.moveToFolder(outputFolder, [property]))[0]
+        : await utils.copyBenchmarkPropertyToFolder(
+            outputFolder,
+            propertyBenchmark
+          );
     }
+    debug('property file: ', propertyPath);
 
     const modelsPath =
       models.length !== 0

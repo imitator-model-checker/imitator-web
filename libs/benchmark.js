@@ -43,7 +43,19 @@ function getBenchmarkModelPath(name) {
   return filePath;
 }
 
+/**
+ * Return the absolute path of a benchmark property file
+ * @param {String} name benchmark of the form <folder>/<benchmark name>
+ *
+ * @returns String
+ */
+function getBenchmarkPropertyPath(name) {
+  const filePath = path.join(benchmarksFolder, `${name}.imiprop`);
+  return filePath;
+}
+
 module.exports = {
   getBenchmarkFiles,
   getBenchmarkModelPath,
+  getBenchmarkPropertyPath,
 };

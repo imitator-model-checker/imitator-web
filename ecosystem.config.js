@@ -12,6 +12,7 @@ module.exports = {
         DEBUG: 'imitator-runner:*',
         IMITATOR_MODE: 'docker',
         IMITATOR_PATH: 'imitator/imitator:latest',
+        BENCHMARKS_FOLDER: '../imitator/benchmarks',
       },
       env_production: {
         NODE_ENV: 'production',

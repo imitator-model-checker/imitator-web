@@ -373,18 +373,34 @@ $('document').ready(function () {
   });
 
   // @ts-ignore
-  $('#benchmark-toggle').on('click', function () {
+  $('#benchmark-models-toggle').on('click', function () {
     // unselect items
     $('#models.input').val('');
     $('#models.select').val([]);
 
     // show good HTML elements
-    if ($('#benchmark-toggle').is(':checked')) {
+    if ($('#benchmark-models-toggle').is(':checked')) {
       $('#models.input').hide().attr('disabled', true);
       $('#models.select').show().attr('disabled', false);
     } else {
       $('#models.select').hide().attr('disabled', true);
       $('#models.input').show().attr('disabled', false);
+    }
+  });
+
+  // @ts-ignore
+  $('#benchmark-properties-toggle').on('click', function () {
+    // unselect items
+    $('#property.input').val('');
+    $('#property.select').val('');
+
+    // show good HTML elements
+    if ($('#benchmark-properties-toggle').is(':checked')) {
+      $('#property.input').hide().attr('disabled', true);
+      $('#property.select').show().attr('disabled', false);
+    } else {
+      $('#property.select').hide().attr('disabled', true);
+      $('#property.input').show().attr('disabled', false);
     }
   });
 });
