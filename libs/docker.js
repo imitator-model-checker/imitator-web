@@ -15,7 +15,11 @@ async function getImitatorVersions() {
 /**
  * Return the command to execute imitator
  *
- * @param {String} mode execution mode
+ * @param {String} model Absolute path of the imitator model file
+ * @param {String} property  Absolute path of the imitator property file
+ * @param {Array<String>} options List of imitator options
+ * @param {String} outputFolder folder where the imitator output will be saved
+ * @param {String} version imitator's version
  *
  * @returns Array<String>
  */
