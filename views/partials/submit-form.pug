@@ -14,7 +14,7 @@ div(class="card w-3/4 m-auto col-span-2")
 
       input(name="models", type="file", id="models", placeholder="~/my-model.imi", required, accept=".imi", multiple, class="input w-full")
       select(name="models_benchmark", id="models", multiple, required, disabled, class="select w-full leading-tight hidden")
-        each files, name in models
+        each files, name in benchmarks.models
           optgroup(label=`${name}`)
             each model in files
               option(value=`${name}/${model}`, class=`${name}`) #{model}
@@ -31,7 +31,7 @@ div(class="card w-3/4 m-auto col-span-2")
 
       input(name="property", type="file", id="property", placeholder="~/my-property.imiprop", accept=".imiprop", class="input w-full")
       select(name="properties_benchmark", id="property", disabled, class="select w-full leading-tight hidden")
-        each files, name in properties
+        each files, name in benchmarks.properties
           optgroup(label=`${name}`)
             each property in files
               option(value=`${name}/${property}`, class=`${name}`) #{property}
@@ -39,6 +39,12 @@ div(class="card w-3/4 m-auto col-span-2")
     div(class="mb-4")
       label(for="options", class="label") Options
       input(name="options", type="text", id="options", placeholder="-depth-limit=10, -statistics", class="input w-full")
+
+    div(class="mb-4")
+      label(for="version", class="label") Imitator Version
+      select(name="version", id="version", class="select w-full leading-tight")
+        each version in versions
+          option(value=version) #{version}
 
     div(class="pt-6")
       button(id="run-artifact-button", type="submit", class="submit-button w-full") Run

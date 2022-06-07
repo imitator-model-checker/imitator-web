@@ -2,39 +2,11 @@ const ps = require('ps');
 const path = require('path');
 const glob = require('fast-glob');
 const process = require('process');
-const config = require('../config');
 const stripAnsi = require('strip-ansi');
 const { flatArray } = require('./utils');
 const { zipFiles } = require('./archiver');
+const docker = require('./docker');
 const { spawn } = require('child_process');
-
-/**
- * Return the command to execute imitator
- *
- * @param {String} mode execution mode
- *
- * @returns Array<String>
- */
-function getImitatorCommand(mode) {
-  if (mode === 'docker') {
-    const outputFolder = config.uploadFolder;
-    return {
-      command: 'docker',
-      extraArguments: [
-        'run',
-        '--rm',
-        '-v',
-        `${outputFolder}:${outputFolder}`,
-        config.imitatorPath,
-      ],
-    };
-  } else {
-    return {
-      command: config.imitatorPath,
-      extraArguments: [],
-    };
-  }
-}
 
 /**
  * Run imitator
@@ -43,11 +15,12 @@ function getImitatorCommand(mode) {
  * @param {String} property  Absolute path of the imitator property file
  * @param {Array<String>} options List of imitator options
  * @param {String} outputFolder folder where the imitator output will be saved
+ * @param {String} version imitator's version
  * @param {any} socket socket listening the output of imitator
  *
  * @returns Promise<String>
  */
-function runImitator(model, property, options, outputFolder, socket) {
+function runImitator(model, property, options, outputFolder, version, socket) {
   return new Promise((resolve, reject) => {
     // result of imitator
     const result = {
@@ -55,23 +28,22 @@ function runImitator(model, property, options, outputFolder, socket) {
       error: '',
     };
 
-    // get the corresponding imitator command to be executed
-    const { command, extraArguments } = getImitatorCommand(config.imitatorMode);
-
     const modelName = path.basename(model, path.extname(model));
     const outputPrefix = path.join(outputFolder, modelName);
 
-    const propertyOptional = property ? [property] : [];
+    const newOptions = ['-output-prefix', outputPrefix, ...options];
+
+    // get the corresponding imitator command to be executed
+    const { command, imitatorArguments } = docker.getImitatorCommand(
+      model,
+      property,
+      newOptions,
+      outputFolder,
+      version
+    );
 
     // imitator execution
-    const imitator = spawn(command, [
-      ...extraArguments,
-      '-output-prefix',
-      outputPrefix,
-      ...options,
-      model,
-      ...propertyOptional,
-    ]);
+    const imitator = spawn(command, imitatorArguments);
 
     // accumulate imitator output
     imitator.stdout.setEncoding('utf-8');

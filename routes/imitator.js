@@ -147,10 +147,13 @@ router.post('/run', upload, async (req, res) => {
     });
     debug('options: ', options);
 
+    // imitator version
+    const imitatorVersion = req.body.version || 'latest';
+
     // run all the experiments asynchronously
     const outputs = await Promise.all(
       modelsPath.map((m) =>
-        runImitator(m, propertyPath, options, outputFolder, io)
+        runImitator(m, propertyPath, options, outputFolder, imitatorVersion, io)
       )
     );
     debug('imitator outputs: ', outputs);

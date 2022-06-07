@@ -1,13 +1,15 @@
 const express = require('express');
 const benchmark = require('../libs/benchmark');
+const docker = require('../libs/docker');
 const { artifacts } = require('../config/artifact');
 
 const router = express.Router();
 
 /* GET home page. */
 router.get('/', async (req, res) => {
-  const files = await benchmark.getBenchmarkFiles();
-  res.render('index', files);
+  const benchmarks = await benchmark.getBenchmarkFiles();
+  const versions = await docker.getImitatorVersions();
+  res.render('index', { benchmarks, versions });
 });
 
 /* GET artifact runner page */
