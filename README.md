@@ -62,7 +62,7 @@ The active application is an AdonisJS 7 TypeScript app organized around hexagona
 - `app/infrastructure`: Docker, filesystem, benchmark, scheduler, and Transmit/SSE adapters.
 - `app/controllers`: HTTP adapters that translate Adonis requests into use case input.
 - `resources/views`: Edge templates.
-- `resources/css`: Tailwind source stylesheet.
+- `resources/css`: Tailwind source stylesheet with shadcn-style design tokens and component classes adapted for Edge templates.
 - `public`: runtime static assets only.
 - `old`: archived Express/Pug implementation kept for reference only.
 

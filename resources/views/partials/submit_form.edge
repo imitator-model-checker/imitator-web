@@ -1,16 +1,17 @@
-<div class="card w-3/4 m-auto col-span-2">
+<div class="card">
   <div class="card-title">Input</div>
+  <p class="card-description">Choose model files or benchmarks, then stream the run output as it arrives.</p>
 
-  <form id="imitator-form">
-    <div class="mb-4">
+  <form id="imitator-form" class="form-stack">
+    <div class="field">
       <label for="models" class="label">Models</label>
-      <label for="benchmark-models-toggle" class="flex items-center cursor-pointer mb-4">
+      <label for="benchmark-models-toggle" class="toggle mb-3">
         <div class="relative">
           <input id="benchmark-models-toggle" type="checkbox" class="hidden" />
-          <div class="toggle__line w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
-          <div class="toggle__dot absolute w-6 h-6 bg-white rounded-full shadow inset-y-0 left-0"></div>
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
         </div>
-        <div class="ml-3 text-gray-700 font-medium">From benchmarks</div>
+        <div class="ml-3 text-sm font-medium">From benchmarks</div>
       </label>
 
       <input name="models" type="file" id="models" placeholder="~/my-model.imi" required accept=".imi" multiple class="input w-full" />
@@ -27,15 +28,15 @@
       </select>
     </div>
 
-    <div class="mb-4">
+    <div class="field">
       <label for="property" class="label">Property</label>
-      <label for="benchmark-properties-toggle" class="flex items-center cursor-pointer mb-4">
+      <label for="benchmark-properties-toggle" class="toggle mb-3">
         <div class="relative">
           <input id="benchmark-properties-toggle" type="checkbox" class="hidden" />
-          <div class="toggle__line w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
-          <div class="toggle__dot absolute w-6 h-6 bg-white rounded-full shadow inset-y-0 left-0"></div>
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
         </div>
-        <div class="ml-3 text-gray-700 font-medium">From benchmarks</div>
+        <div class="ml-3 text-sm font-medium">From benchmarks</div>
       </label>
 
       <input name="property" type="file" id="property" placeholder="~/my-property.imiprop" accept=".imiprop" class="input w-full" />
@@ -52,12 +53,12 @@
       </select>
     </div>
 
-    <div class="mb-4">
+    <div class="field">
       <label for="options" class="label">Options</label>
       <input name="options" type="text" id="options" placeholder="-depth-limit=10, -statistics" class="input w-full" />
     </div>
 
-    <div class="mb-4">
+    <div class="field">
       <label for="version" class="label">Imitator Version</label>
       <select name="version" id="version" class="select w-full leading-tight">
         @each(version in versions)
@@ -66,7 +67,7 @@
       </select>
     </div>
 
-    <div class="pt-6">
+    <div class="pt-2">
       <button id="run-artifact-button" type="submit" class="submit-button w-full">Run</button>
     </div>
   </form>

@@ -5,59 +5,238 @@
 @tailwind utilities;
 
 :root {
-  --card-md-height: 580px;
+  --background: #f8fafc;
+  --foreground: #020817;
+  --card: #ffffff;
+  --card-foreground: #020817;
+  --popover: #ffffff;
+  --popover-foreground: #020817;
+  --primary: #111827;
+  --primary-foreground: #f8fafc;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #dcfce7;
+  --accent-foreground: #14532d;
+  --destructive: #ef4444;
+  --destructive-foreground: #f8fafc;
+  --border: #e2e8f0;
+  --input: #cbd5e1;
+  --ring: #111827;
+  --radius: 0.5rem;
+}
+
+html {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+body {
+  @apply antialiased;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.app-shell {
+  @apply min-h-screen flex flex-col;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(22, 163, 74, 0.08), transparent 28rem),
+    var(--background);
+}
+
+.app-main {
+  @apply w-full flex flex-grow px-6 py-8;
+}
+
+.page-grid {
+  @apply w-full max-w-6xl mx-auto grid grid-cols-1 gap-6;
+}
+
+@screen lg {
+  .page-grid {
+    @apply grid-cols-2;
+  }
+}
+
+.navigation {
+  @apply w-full flex flex-grow-0 items-center justify-between flex-wrap px-6 py-3 border-b;
+  background: rgba(255, 255, 255, 0.92);
+  border-color: var(--border);
+  backdrop-filter: blur(10px);
+}
+
+.brand-link {
+  @apply flex items-center gap-3 font-semibold text-lg;
+  color: var(--foreground);
+}
+
+.brand-logo {
+  @apply h-10 w-auto;
+}
+
+.nav-actions {
+  @apply flex items-center gap-2;
+}
+
+.nav-link {
+  @apply inline-flex items-center justify-center text-sm font-medium px-3 py-2 border transition-colors;
+  border-color: var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  color: var(--foreground);
+  background: var(--card);
+}
+
+.nav-link:hover {
+  background: var(--secondary);
 }
 
 .card {
-  @apply bg-white border-t-8 border-gray-800 rounded overflow-hidden shadow-md relative p-8;
-}
-
-.card-md {
-  height: var(--card-md-height);
+  @apply h-auto flex flex-wrap flex-shrink w-full m-auto overflow-hidden relative p-6 border shadow-sm;
+  background: var(--card);
+  color: var(--card-foreground);
+  border-color: var(--border);
+  border-radius: var(--radius);
 }
 
 .card-title {
-  @apply w-full tracking-widest text-2xl font-light mb-4
+  @apply w-full text-xl font-semibold mb-1;
+}
+
+.card-description {
+  @apply w-full text-sm mb-6;
+  color: var(--muted-foreground);
+}
+
+.form-stack {
+  @apply w-full;
+}
+
+.form-stack > * + * {
+  margin-top: 1.25rem;
+}
+
+.field {
+  @apply w-full;
 }
 
 .label {
-  @apply block text-gray-900 font-bold mb-2;
+  @apply block text-sm font-medium mb-2;
+  color: var(--foreground);
 }
 
-.input {
-  @apply border border-gray-800 rounded p-2 font-mono text-sm text-gray-900;
+.field-hint {
+  @apply text-sm mt-2;
+  color: var(--muted-foreground);
+}
+
+.input,
+.select {
+  @apply w-full border px-3 py-2 text-sm shadow-sm;
+  min-height: 2.5rem;
+  background: var(--card);
+  border-color: var(--input);
+  border-radius: calc(var(--radius) - 2px);
+  color: var(--foreground);
+}
+
+.input:focus,
+.select:focus {
+  @apply outline-none;
+  border-color: var(--ring);
+  box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.12);
 }
 
 .select {
-  @apply border bg-white border-gray-800 rounded p-2 font-mono text-sm text-gray-900;
+  @apply leading-tight;
 }
 
 .submit-button {
-  @apply font-semibold bg-gray-800 text-white rounded-lg shadow-xl text-lg px-6 py-3;
-}
-
-.submit-button:hover {
-  @apply text-white bg-black;
+  @apply inline-flex w-full items-center justify-center font-medium text-sm px-4 py-2 transition-colors;
+  min-height: 2.5rem;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-radius: calc(var(--radius) - 2px);
 }
 
 .submit-button:disabled {
-  @apply font-semibold bg-gray-800 text-white rounded-lg shadow-xl text-lg px-6 py-3 opacity-50 cursor-not-allowed;
+  @apply opacity-50 cursor-not-allowed;
+}
+
+.submit-button:hover:not(:disabled) {
+  background: #000000;
+}
+
+.button-secondary {
+  @apply inline-flex items-center justify-center font-medium text-sm px-4 py-2 border transition-colors;
+  min-height: 2.5rem;
+  background: var(--card);
+  border-color: var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  color: var(--foreground);
+}
+
+.button-secondary:hover {
+  background: var(--secondary);
 }
 
 .code-block {
-  @apply font-mono text-sm border border-gray-700 p-1 overflow-auto;
+  @apply w-full font-mono text-sm border p-3 overflow-auto;
+  background: #020817;
+  border-color: var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  color: #e2e8f0;
 }
 
 .chip {
-  @apply inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700;
+  @apply inline-flex items-center px-2 py-1 text-xs font-medium mr-1 mb-1;
+  background: var(--secondary);
+  border-radius: calc(var(--radius) - 4px);
+  color: var(--secondary-foreground);
 }
 
 .chip-outlined {
-   @apply inline-block rounded-full px-3 py-1 text-sm font-semibold text-gray-700 border border-gray-700;
+  @apply inline-flex items-center px-2 py-1 text-xs font-medium border mr-1 mb-1 transition-colors;
+  background: var(--card);
+  border-color: var(--border);
+  border-radius: calc(var(--radius) - 4px);
+  color: var(--foreground);
 }
 
+.chip-outlined:hover {
+  background: var(--secondary);
+}
 
-/** CSS for spinner **/
+.tab-slider--trigger.active {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.toggle {
+  @apply flex items-center cursor-pointer;
+}
+
+.toggle-track {
+  @apply w-10 h-5 border shadow-inner;
+  background: var(--muted);
+  border-color: var(--border);
+  border-radius: 9999px;
+}
+
+.toggle-thumb {
+  @apply absolute w-5 h-5 shadow transition-transform;
+  top: 0;
+  left: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+}
+
+input:checked ~ .toggle-thumb {
+  transform: translateX(100%);
+  background: #22c55e;
+  border-color: #16a34a;
+}
 
 .loading {
   display: inline-block;
@@ -66,9 +245,9 @@
   right: 50%;
   width: 50px;
   height: 50px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
+  border: 3px solid rgba(15, 23, 42, 0.16);
   border-radius: 50%;
-  border-top-color: black;
+  border-top-color: var(--primary);
   animation: spin 1s ease-in-out infinite;
   -webkit-animation: spin 1s ease-in-out infinite;
 }
@@ -76,26 +255,6 @@
 @keyframes spin {
   to {
     -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
-}
-
-/** CSS for tabs **/
-
-.tab-slider--trigger.active {
-  color: white;
-  background: #2D3748;
-  transition: all 250ms ease-in-out;
-}
-
-/** CSS for switch button **/
-
-.toggle__dot {
-  top: -.25rem;
-  left: -.25rem;
-  transition: all 0.3s ease-in-out;
-}
-
-input:checked ~ .toggle__dot {
-  transform: translateX(100%);
-  background-color: #48bb78;
 }

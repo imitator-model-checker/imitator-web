@@ -15,13 +15,13 @@
     <script type="module" src="/javascripts/sockets.js"></script>
   </head>
   <body>
-    <div class="h-screen flex flex-col">
+    <div class="app-shell">
       @include('partials/header')
 
-      <div class="w-full bg-gray-100 flex flex-grow p-8">
+      <main class="app-main">
         {{{ await $slots.main() }}}
         <div id="spinner"></div>
-      </div>
+      </main>
     </div>
   </body>
 </html>
