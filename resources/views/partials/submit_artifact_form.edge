@@ -1,0 +1,38 @@
+<div class="card w-3/4 m-auto col-span-2">
+  <div class="card-title">Artifact</div>
+
+  <form id="artifact-form">
+    <div class="mb-4">
+      <label for="artifact" class="label">Artifact</label>
+      <select name="artifact" id="artifact" class="select w-full leading-tight">
+        <option value="none">Please Select</option>
+        @each(name in names)
+          <option value="{{ name }}">{{ name }}</option>
+        @end
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label for="script" class="label">Script</label>
+      <select name="script" id="script" class="select w-full">
+        <option value="" class="none"></option>
+        @each(entry in Object.entries(artifacts))
+          @let(name = entry[0])
+          @let(artifact = entry[1])
+          @each(script in artifact.scripts)
+            <option value="{{ script }}" class="{{ name }}">{{ script }}</option>
+          @end
+        @end
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label for="options" class="label">Options</label>
+      <input name="options" type="text" id="options" placeholder="-i flipflop -t 120" class="input w-full" />
+    </div>
+
+    <div class="pt-6">
+      <button id="run-artifact-button" type="submit" class="submit-button w-full">Run</button>
+    </div>
+  </form>
+</div>
