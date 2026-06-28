@@ -1,4 +1,4 @@
-import { outputBroadcaster } from '#infrastructure/realtime/socket_io_broadcaster'
+import { outputBroadcaster } from '#infrastructure/realtime/transmit_broadcaster'
 import { ArtifactProcessRunner } from '#infrastructure/processes/artifact_process_runner'
 
 export class StopArtifact {

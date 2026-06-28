@@ -1,64 +1,72 @@
 /* eslint no-undef: 0 */
 /* eslint no-unused-vars: 0 */
 
-const socket = io();
+import { Transmit } from '/vendor/transmit-client.js';
 
-/** Listening for imitator output */
-socket.on('imitator_output', function (model, type, message) {
-  if (model) {
-    if (type === 'stdout' || type === 'error') {
-      // @ts-ignore
-      $(`pre[id="stdout-${model}"]`).text(message);
+const transmit = new Transmit({
+  baseUrl: window.location.origin,
+  uidGenerator: () => {
+    if (window.crypto && 'randomUUID' in window.crypto) {
+      return window.crypto.randomUUID();
     }
 
-    // render generated files
-    if (type === 'files') {
-      for (const file of message.files) {
-        // @ts-ignore
-        $('#output-files').append(
-          `<span onclick="downloadFile('${message.path}', '${file}');" class="file chip cursor-pointer mr-1 mb-1">${file}</span>`
-        );
-      }
+    return Array.from({ length: 16 }, () =>
+      Math.floor(Math.random() * 256)
+        .toString(16)
+        .padStart(2, '0')
+    ).join('');
+  },
+});
+
+const imitatorSubscription = transmit.subscription('imitator-output');
+const artifactSubscription = transmit.subscription('artifact-output');
+
+imitatorSubscription.onMessage(function (payload) {
+  if (payload.event === 'exit') {
+    hideSpinner();
+    enableRunButton();
+    hideStopButton();
+    return;
+  }
+
+  const { model, type, message } = payload;
+  if (!model) return;
+
+  if (type === 'stdout' || type === 'error') {
+    $(`pre[id="stdout-${model}"]`).text(message);
+  }
+
+  if (type === 'files') {
+    for (const file of message.files) {
+      $('#output-files').append(
+        `<span onclick="downloadFile('${message.path}', '${file}');" class="file chip cursor-pointer mr-1 mb-1">${file}</span>`
+      );
     }
   }
 });
 
-/** Listening for imitator exit */
-socket.on('imitator_exit', function () {
-  // @ts-ignore
-  hideSpinner();
-  // @ts-ignore
-  enableRunButton();
-  // @ts-ignore
-  hideStopButton();
-});
+artifactSubscription.onMessage(function (payload) {
+  if (payload.event === 'exit') {
+    hideSpinner();
+    enableRunButton();
+    hideStopButton();
+    return;
+  }
 
-/** Listening for artifact output */
-socket.on('artifact_output', function (name, type, message) {
-  if (name) {
-    if (type === 'stdout' || type === 'error') {
-      // @ts-ignore
-      $('#artifact-stdout').append(message);
-    }
+  const { name, type, message } = payload;
+  if (!name) return;
 
-    // render generated files
-    if (type === 'files') {
-      for (const file of message.files) {
-        // @ts-ignore
-        $('#artifact-output-files').append(
-          `<span onclick="downloadFile('${message.path}', '${file}');" class="file chip cursor-pointer mr-1 mb-1">${file}</span>`
-        );
-      }
+  if (type === 'stdout' || type === 'error') {
+    $('#artifact-stdout').append(message);
+  }
+
+  if (type === 'files') {
+    for (const file of message.files) {
+      $('#artifact-output-files').append(
+        `<span onclick="downloadFile('${message.path}', '${file}');" class="file chip cursor-pointer mr-1 mb-1">${file}</span>`
+      );
     }
   }
 });
 
-/** Listening for artifact output */
-socket.on('artifact_exit', function () {
-  // @ts-ignore
-  hideSpinner();
-  // @ts-ignore
-  enableRunButton();
-  // @ts-ignore
-  hideStopButton();
-});
+await Promise.all([imitatorSubscription.create(), artifactSubscription.create()]);

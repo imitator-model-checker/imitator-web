@@ -1,4 +1,5 @@
 import router from '@adonisjs/core/services/router'
+import transmit from '@adonisjs/transmit/services/main'
 
 const PagesController = () => import('#controllers/pages_controller')
 const ImitatorController = () => import('#controllers/api/imitator_controller')
@@ -23,3 +24,5 @@ router
     router.post('/stop', [ArtifactController, 'stop'])
   })
   .prefix('/api/artifact')
+
+transmit.registerRoutes()

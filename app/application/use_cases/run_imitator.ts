@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 import type { MultipartFile } from '@adonisjs/bodyparser'
-import { outputBroadcaster } from '#infrastructure/realtime/socket_io_broadcaster'
+import { outputBroadcaster } from '#infrastructure/realtime/transmit_broadcaster'
 import { WorkspaceStorage } from '#infrastructure/filesystem/workspace_storage'
 import { ImitatorProcessRunner } from '#infrastructure/processes/imitator_process_runner'
 import { parseOptions, removeForbiddenOptions } from '#domain/options/option_sanitizer'

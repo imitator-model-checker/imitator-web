@@ -35,9 +35,10 @@ The server has been ported to AdonisJS 7 and organized around a hexagonal archit
 
 - `app/domain`: framework-free contracts and domain helpers.
 - `app/application`: use cases for running, stopping, and downloading jobs.
-- `app/infrastructure`: Docker, filesystem, benchmark, scheduler, and Socket.IO adapters.
+- `app/infrastructure`: Docker, filesystem, benchmark, scheduler, and Transmit/SSE adapters.
 - `app/controllers`: HTTP adapters that translate Adonis requests into use case input.
 - `resources/views`: Edge templates replacing the previous Pug views.
+- `old`: archived Express/Pug implementation kept for reference only.
 
 ## Configuration
 

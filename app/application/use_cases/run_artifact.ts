@@ -3,7 +3,7 @@ import { randomUUID } from 'node:crypto'
 import { artifacts } from '#infrastructure/config/artifacts'
 import { runnerConfig } from '#infrastructure/config/runner_config'
 import { WorkspaceStorage } from '#infrastructure/filesystem/workspace_storage'
-import { outputBroadcaster } from '#infrastructure/realtime/socket_io_broadcaster'
+import { outputBroadcaster } from '#infrastructure/realtime/transmit_broadcaster'
 import { ArtifactProcessRunner } from '#infrastructure/processes/artifact_process_runner'
 import { parseOptions } from '#domain/options/option_sanitizer'
 

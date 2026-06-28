@@ -15,6 +15,7 @@ export default defineConfig({
     },
     () => import('@adonisjs/core/providers/edge_provider'),
     () => import('@adonisjs/static/static_provider'),
+    () => import('@adonisjs/transmit/transmit_provider'),
   ],
 
   preloads: [

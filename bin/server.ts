@@ -1,7 +1,5 @@
 await import('reflect-metadata')
-const { createServer } = await import('node:http')
 const { Ignitor, prettyPrintError } = await import('@adonisjs/core')
-const { configureSocketServer } = await import('#infrastructure/realtime/socket_io_server')
 
 const APP_ROOT = new URL('../', import.meta.url)
 
@@ -22,11 +20,7 @@ new Ignitor(APP_ROOT, { importer: IMPORTER })
     app.listenIf(app.managedByPm2, 'SIGINT', () => app.terminate())
   })
   .httpServer()
-  .start((handler) => {
-    const httpServer = createServer(handler)
-    configureSocketServer(httpServer)
-    return httpServer
-  })
+  .start()
   .catch((error) => {
     process.exitCode = 1
     prettyPrintError(error)

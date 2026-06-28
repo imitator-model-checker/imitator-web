@@ -13,7 +13,7 @@
     "serve": "node ace serve",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "build:css": "tailwindcss build ./public/stylesheets/tailwind.css -c ./tailwind.config.cjs -o ./public/stylesheets/style.css"
+    "build:css": "tailwindcss build ./resources/css/tailwind.css -c ./tailwind.config.cjs -o ./public/stylesheets/style.css"
   },
   "imports": {
     "#controllers/*": "./app/controllers/*.js",
@@ -28,6 +28,8 @@
   "dependencies": {
     "@adonisjs/core": "^7.3.3",
     "@adonisjs/static": "^2.0.1",
+    "@adonisjs/transmit": "^3.0.1",
+    "@adonisjs/transmit-client": "^1.1.0",
     "@poppinss/ts-exec": "^1.4.4",
     "axios": "^1.13.2",
     "date-fns": "^4.1.0",
@@ -35,7 +37,6 @@
     "fast-glob": "^3.3.3",
     "node-cron": "^4.2.1",
     "reflect-metadata": "^0.2.2",
-    "socket.io": "^4.8.1",
     "strip-ansi": "^7.1.2"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-import { outputBroadcaster } from '#infrastructure/realtime/socket_io_broadcaster'
+import { outputBroadcaster } from '#infrastructure/realtime/transmit_broadcaster'
 import { ImitatorProcessRunner } from '#infrastructure/processes/imitator_process_runner'
 
 export class StopImitator {
