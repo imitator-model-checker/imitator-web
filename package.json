@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "packageManager": "npm@11.17.0",
   "engines": {
     "node": ">=24.0.0"
   },
   "scripts": {
     "start": "node build/bin/server.js",
-    "dev": "yarn build:css && node ace serve --hmr",
-    "build": "yarn build:css && node ace build",
+    "dev": "npm run build:css && node ace serve --hmr",
+    "build": "npm run build:css && node ace build",
     "serve": "node ace serve",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",

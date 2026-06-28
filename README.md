@@ -1,58 +1,94 @@
 # imitator-web
 
-Graphical web interface to run Imitator jobs in Docker containers and stream command output to the browser in real time.
+![Imitator logo](public/images/imitator.png)
+
+Web interface for launching Imitator and artifact jobs in Docker containers, then streaming command output back to the browser in real time with Server-Sent Events.
 
 ## Requirements
 
-- [Node.js](https://nodejs.org/en/) >= 24
-- [Yarn](https://yarnpkg.com/)
+- Node.js >= 24
+- npm >= 11
 - Docker available to the application process
+- Access to the Imitator Docker images used by the configured jobs
 
-## Run
+## Quick Start
 
 Install dependencies:
 
 ```bash
-yarn install
+npm ci
 ```
 
 Start the AdonisJS development server:
 
 ```bash
-yarn dev
+npm run dev
 ```
 
 Build and run the production server:
 
 ```bash
-yarn build
-yarn start
+npm run build
+npm start
 ```
+
+## Scripts
+
+- `npm run dev`: builds the Tailwind stylesheet and starts AdonisJS with HMR.
+- `npm run build`: builds CSS and compiles the AdonisJS application into `build/`.
+- `npm start`: starts the compiled production server from `build/bin/server.js`.
+- `npm run serve`: starts the AdonisJS server without HMR.
+- `npm run lint`: runs ESLint.
+- `npm run typecheck`: runs TypeScript checks without emitting files.
+
+## Runtime
+
+The application exposes two user-facing pages:
+
+- `/`: run Imitator models, optionally using benchmark files.
+- `/artifact`: run configured artifact scripts in Docker.
+
+Realtime output is delivered with Adonis Transmit over SSE on `__transmit/*` routes. The browser subscribes to:
+
+- `imitator-output`
+- `artifact-output`
 
 ## Architecture
 
-The server has been ported to AdonisJS 7 and organized around a hexagonal architecture:
+The active application is an AdonisJS 7 TypeScript app organized around hexagonal architecture:
 
 - `app/domain`: framework-free contracts and domain helpers.
 - `app/application`: use cases for running, stopping, and downloading jobs.
 - `app/infrastructure`: Docker, filesystem, benchmark, scheduler, and Transmit/SSE adapters.
 - `app/controllers`: HTTP adapters that translate Adonis requests into use case input.
-- `resources/views`: Edge templates replacing the previous Pug views.
+- `resources/views`: Edge templates.
+- `resources/css`: Tailwind source stylesheet.
+- `public`: runtime static assets only.
 - `old`: archived Express/Pug implementation kept for reference only.
 
 ## Configuration
+
+Use environment variables to configure the runner:
 
 - `UPLOAD_FOLDER`: folder where run output files are saved temporarily. Default: `/tmp/imitator-runner`.
 - `BENCHMARKS_FOLDER`: folder where benchmark files are stored. Default: `./benchmarks`.
 - `DOCKER_API`: Docker Hub API endpoint used to fetch Imitator tags. Default: `https://hub.docker.com/v2/repositories/imitator/imitator`.
 - `TIME_LIMIT_FILES`: number of days before generated output folders are cleaned. Default: `7`.
-- `HOST`: host used by the Adonis server. Default: Adonis default.
+- `HOST`: host used by the Adonis server.
 - `PORT`: server port. Default: `3000`.
 - `APP_KEY`: encryption key used by Adonis internals. Set a secret value in production.
 
 ## Production
 
-The historical production configuration can be adapted through `ecosystem.config.cjs`:
+Build before starting production:
+
+```bash
+npm ci
+npm run build
+npm start
+```
+
+The PM2 deployment file is `ecosystem.config.cjs`. Its production defaults are:
 
 ```javascript
 env_production: {
@@ -63,3 +99,5 @@ env_production: {
   HOST: '0.0.0.0',
 }
 ```
+
+If your reverse proxy enables gzip, exclude `text/event-stream` so Transmit/SSE connections are not buffered or compressed.

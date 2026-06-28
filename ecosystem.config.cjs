@@ -29,7 +29,7 @@ module.exports = {
       repo: 'GIT_REPOSITORY',
       path: 'DESTINATION_PATH',
       'pre-deploy-local': '',
-      'post-deploy': 'yarn install --frozen-lockfile && yarn build && pm2 reload ecosystem.config.cjs --env production',
+      'post-deploy': 'npm ci && npm run build && pm2 reload ecosystem.config.cjs --env production',
       'pre-setup': '',
     },
   },
