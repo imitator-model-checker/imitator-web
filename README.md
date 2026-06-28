@@ -1,8 +1,6 @@
 # imitator-web
 
-![Imitator logo](public/images/imitator.png)
-
-Web interface for launching Imitator and artifact jobs in Docker containers, then streaming command output back to the browser in real time with Server-Sent Events.
+Web interface for launching Imitator and artifact jobs in Docker containers, then streaming command output back to the browser in real time.
 
 ## Requirements
 
