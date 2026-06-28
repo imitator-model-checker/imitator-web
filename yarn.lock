@@ -2106,6 +2106,17 @@ hosted-git-info@^9.0.0:
   dependencies:
     lru-cache "^11.1.0"
 
+hot-hook@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/hot-hook/-/hot-hook-1.0.0.tgz#7c56655fe192f332ec3f522f394b758ac011f36e"
+  integrity sha512-OkZm5tTE4ej8ur8VlcQwMm8G9sFxu4D+shM+ol/h4mrUhuZvFkjk5n/nWKmLq3COmy6epLN7XIIQJ75tnqCGIw==
+  dependencies:
+    chokidar "^5.0.0"
+    fast-glob "^3.3.3"
+    parse-imports "^3.0.0"
+    picomatch "^4.0.3"
+    read-package-up "^12.0.0"
+
 html-tags@^3.1.0:
   version "3.1.0"
   resolved "https://registry.npmjs.org/html-tags/-/html-tags-3.1.0.tgz"
