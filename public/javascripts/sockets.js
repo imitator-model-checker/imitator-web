@@ -1,7 +1,10 @@
-/* eslint no-undef: 0 */
-/* eslint no-unused-vars: 0 */
-
 import { Transmit } from '/vendor/transmit-client.js';
+import {
+  appendArtifactOutput,
+  appendDownloadLink,
+  resetRunningState,
+  updateModelOutput,
+} from './utils.js';
 
 const transmit = new Transmit({
   baseUrl: window.location.origin,
@@ -21,25 +24,9 @@ const transmit = new Transmit({
 const imitatorSubscription = transmit.subscription('imitator-output');
 const artifactSubscription = transmit.subscription('artifact-output');
 
-function downloadUrl(identifier, file) {
-  return `/api/imitator/download/${encodeURIComponent(identifier)}/${encodeURIComponent(file)}`;
-}
-
-function appendDownloadLink(container, identifier, file) {
-  $('<a></a>')
-    .attr('href', downloadUrl(identifier, file))
-    .attr('target', '_blank')
-    .attr('rel', 'noopener noreferrer')
-    .addClass('file chip cursor-pointer mr-1 mb-1')
-    .text(file)
-    .appendTo(container);
-}
-
 imitatorSubscription.onMessage(function (payload) {
   if (payload.event === 'exit') {
-    hideSpinner();
-    enableRunButton();
-    hideStopButton();
+    resetRunningState();
     return;
   }
 
@@ -47,7 +34,7 @@ imitatorSubscription.onMessage(function (payload) {
   if (!model) return;
 
   if (type === 'stdout' || type === 'error') {
-    $(`pre[id="stdout-${model}"]`).text(message);
+    updateModelOutput(model, message);
   }
 
   if (type === 'files') {
@@ -59,9 +46,7 @@ imitatorSubscription.onMessage(function (payload) {
 
 artifactSubscription.onMessage(function (payload) {
   if (payload.event === 'exit') {
-    hideSpinner();
-    enableRunButton();
-    hideStopButton();
+    resetRunningState();
     return;
   }
 
@@ -69,7 +54,7 @@ artifactSubscription.onMessage(function (payload) {
   if (!name) return;
 
   if (type === 'stdout' || type === 'error') {
-    $('#artifact-stdout').append(message);
+    appendArtifactOutput(message);
   }
 
   if (type === 'files') {
