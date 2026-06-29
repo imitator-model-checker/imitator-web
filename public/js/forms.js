@@ -8,6 +8,18 @@ import {
   startRunningState,
 } from './utils.js';
 
+/**
+ * Form controller for the Imitator and artifact runner pages.
+ *
+ * This module wires submit handlers, benchmark toggles, and artifact/script
+ * selectors. Rendering and HTTP transport stay in their own modules.
+ */
+
+/**
+ * Clears the value of text, file, and select controls.
+ *
+ * @param {HTMLInputElement | HTMLSelectElement | null} field Field to reset.
+ */
 function clearFieldValue(field) {
   if (!field) return;
 
@@ -21,6 +33,13 @@ function clearFieldValue(field) {
   field.value = '';
 }
 
+/**
+ * Switches one file input/select pair between upload mode and benchmark mode.
+ *
+ * @param {HTMLInputElement} toggle Checkbox deciding which source is active.
+ * @param {HTMLInputElement} fileInput File input used for local uploads.
+ * @param {HTMLSelectElement} benchmarkSelect Select used for benchmark files.
+ */
 function setBenchmarkSource(toggle, fileInput, benchmarkSelect) {
   const useBenchmark = toggle.checked;
 
@@ -33,6 +52,13 @@ function setBenchmarkSource(toggle, fileInput, benchmarkSelect) {
   benchmarkSelect.classList.toggle('hidden', !useBenchmark);
 }
 
+/**
+ * Binds a benchmark toggle if its controls exist on the current page.
+ *
+ * @param {string} toggleSelector Checkbox selector.
+ * @param {string} inputSelector File input selector.
+ * @param {string} selectSelector Benchmark select selector.
+ */
 function initializeBenchmarkToggle(toggleSelector, inputSelector, selectSelector) {
   const toggle = document.querySelector(toggleSelector);
   const fileInput = document.querySelector(inputSelector);
@@ -44,6 +70,9 @@ function initializeBenchmarkToggle(toggleSelector, inputSelector, selectSelector
   setBenchmarkSource(toggle, fileInput, benchmarkSelect);
 }
 
+/**
+ * Keeps the artifact script select in sync with the selected artifact image.
+ */
 function initializeArtifactMenu() {
   const form = document.getElementById('artifact-form');
   const artifactSelect = document.getElementById('artifact');
@@ -73,6 +102,9 @@ function initializeArtifactMenu() {
   syncScriptOptions();
 }
 
+/**
+ * Handles the Imitator form submission and wires the stop button for its pids.
+ */
 function initializeImitatorForm() {
   const form = document.getElementById('imitator-form');
   if (!form) return;
@@ -101,6 +133,9 @@ function initializeImitatorForm() {
   });
 }
 
+/**
+ * Handles the artifact form submission and wires the stop button for its run.
+ */
 function initializeArtifactForm() {
   const form = document.getElementById('artifact-form');
   if (!form) return;
@@ -127,6 +162,9 @@ function initializeArtifactForm() {
   });
 }
 
+/**
+ * Initializes all form behavior supported by the current page.
+ */
 function initializeForms() {
   initializeArtifactMenu();
   initializeImitatorForm();

@@ -6,6 +6,14 @@ import {
   updateModelOutput,
 } from './utils.js';
 
+/**
+ * Live output bridge powered by Adonis Transmit.
+ *
+ * The server broadcasts output lines, generated file notifications, and exit
+ * events. This module only subscribes to those events and delegates DOM updates
+ * to the shared UI helpers.
+ */
+
 const transmit = new Transmit({
   baseUrl: window.location.origin,
   uidGenerator: () => {

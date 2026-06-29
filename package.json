@@ -14,7 +14,7 @@
     "serve": "node ace serve",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "build:css": "tailwindcss build ./resources/css/tailwind.css -c ./tailwind.config.cjs -o ./public/stylesheets/style.css"
+    "build:css": "tailwindcss build ./resources/css/tailwind.css -c ./tailwind.config.cjs -o ./public/css/style.css"
   },
   "imports": {
     "#controllers/*": "./app/controllers/*.js",

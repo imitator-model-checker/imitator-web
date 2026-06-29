@@ -22,14 +22,27 @@
     /* ignore storage failures (private mode, etc.) */
   }
 
+  /**
+   * Checks whether the operating system prefers dark color schemes.
+   *
+   * @returns {boolean}
+   */
   function systemPrefersDark() {
     return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
   }
 
+  /**
+   * Resolves the active theme from explicit user preference or system default.
+   *
+   * @returns {'dark' | 'light'}
+   */
   function effectiveTheme() {
     return root.getAttribute('data-theme') || (systemPrefersDark() ? 'dark' : 'light');
   }
 
+  /**
+   * Shows the icon representing the theme the button will switch to.
+   */
   function syncIcons() {
     const isDark = effectiveTheme() === 'dark';
     const sun = document.querySelector('.theme-icon-sun');
@@ -40,6 +53,11 @@
     if (moon) moon.style.display = isDark ? 'none' : 'block';
   }
 
+  /**
+   * Applies and stores a user-selected theme.
+   *
+   * @param {'dark' | 'light'} theme Theme to apply to the document root.
+   */
   function setTheme(theme) {
     root.setAttribute('data-theme', theme);
     try {
