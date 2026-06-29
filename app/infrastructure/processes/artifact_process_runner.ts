@@ -28,9 +28,16 @@ export class ArtifactProcessRunner {
   }): Promise<ArtifactProcessRun> {
     return new Promise((resolve, reject) => {
       const containerName = `${input.name}-${randomUUID()}`
+      // Run as the host user owning the bind-mounted workspace so the container
+      // can write its outputs to the deployer-owned folder without EACCES.
+      const userOptional =
+        typeof process.getuid === 'function' && typeof process.getgid === 'function'
+          ? ['--user', `${process.getuid()}:${process.getgid()}`]
+          : []
       const artifact = spawn('docker', [
         'run',
         '--rm',
+        ...userOptional,
         '--name',
         containerName,
         '-v',
