@@ -21248,6 +21248,30 @@ body {
   height: 2rem;
 }
 
+/* Show the black-line logo in light mode, the white-line one in dark mode. */
+
+.brand-logo-dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .brand-logo-light {
+    display: none;
+  }
+
+  :root:not([data-theme='light']) .brand-logo-dark {
+    display: block;
+  }
+}
+
+:root[data-theme='dark'] .brand-logo-light {
+  display: none;
+}
+
+:root[data-theme='dark'] .brand-logo-dark {
+  display: block;
+}
+
 .brand-link span {
   overflow: hidden;
   text-overflow: ellipsis;
