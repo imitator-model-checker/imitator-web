@@ -21066,8 +21066,10 @@ video {
   --border-strong: #cbd5e1;
   --input: #cbd5e1;
   --ring: #22c55e;
-  --code-bg: #0b1120;
-  --code-fg: #e2e8f0;
+  --code-bg: #f8fafc;
+  --code-fg: #1e293b;
+  --code-border: #cbd5e1;
+  --code-scrollbar: rgba(100, 116, 139, 0.4);
   --radius: 0.65rem;
   --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
   --shadow-md: 0 1px 3px rgba(15, 23, 42, 0.08), 0 8px 24px -12px rgba(15, 23, 42, 0.18);
@@ -21103,6 +21105,8 @@ video {
     --ring: #22c55e;
     --code-bg: #020617;
     --code-fg: #cbd5e1;
+    --code-border: #1e293b;
+    --code-scrollbar: rgba(148, 163, 184, 0.35);
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
     --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.5), 0 8px 24px -12px rgba(0, 0, 0, 0.7);
     --shadow-lg: 0 24px 48px -24px rgba(0, 0, 0, 0.8);
@@ -21137,6 +21141,8 @@ video {
   --ring: #22c55e;
   --code-bg: #020617;
   --code-fg: #cbd5e1;
+  --code-border: #1e293b;
+  --code-scrollbar: rgba(148, 163, 184, 0.35);
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
   --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.5), 0 8px 24px -12px rgba(0, 0, 0, 0.7);
   --shadow-lg: 0 24px 48px -24px rgba(0, 0, 0, 0.8);
@@ -21591,7 +21597,7 @@ body {
   padding: 1rem;
   overflow: auto;
   background: var(--code-bg);
-  border-color: var(--border);
+  border-color: var(--code-border);
   border-radius: calc(var(--radius) - 0.25rem);
   color: var(--code-fg);
   line-height: 1.6;
@@ -21606,7 +21612,7 @@ body {
 }
 
 .code-block::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.35);
+  background: var(--code-scrollbar);
   border-radius: 9999px;
 }
 
