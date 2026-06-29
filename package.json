@@ -9,6 +9,11 @@
   },
   "scripts": {
     "start": "node build/bin/server.js",
+    "pm2:start": "pm2 start ecosystem.config.cjs",
+    "pm2:reload": "pm2 reload ecosystem.config.cjs",
+    "pm2:stop": "pm2 stop ecosystem.config.cjs",
+    "pm2:delete": "pm2 delete ecosystem.config.cjs",
+    "pm2:logs": "pm2 logs imitator-runner",
     "dev": "npm run build:css && node ace serve --hmr",
     "build": "npm run build:css && node ace build",
     "serve": "node ace serve",
