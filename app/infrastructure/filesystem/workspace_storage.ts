@@ -52,6 +52,14 @@ export class WorkspaceStorage {
   }
 
   async assertDownloadableFile(identifier: string, file: string) {
+    if (path.basename(identifier) !== identifier) {
+      throw new Error('invalid identifier')
+    }
+
+    if (path.basename(file) !== file) {
+      throw new Error('invalid filename')
+    }
+
     const fullPath = path.join(runnerConfig.uploadFolder, identifier, file)
     await fs.access(fullPath)
     return fullPath

@@ -21,6 +21,18 @@ const transmit = new Transmit({
 const imitatorSubscription = transmit.subscription('imitator-output');
 const artifactSubscription = transmit.subscription('artifact-output');
 
+function downloadUrl(identifier, file) {
+  return `/api/imitator/download/${encodeURIComponent(identifier)}/${encodeURIComponent(file)}`;
+}
+
+function appendDownloadLink(container, identifier, file) {
+  $('<a></a>')
+    .attr('href', downloadUrl(identifier, file))
+    .addClass('file chip cursor-pointer mr-1 mb-1')
+    .text(file)
+    .appendTo(container);
+}
+
 imitatorSubscription.onMessage(function (payload) {
   if (payload.event === 'exit') {
     hideSpinner();
@@ -38,9 +50,7 @@ imitatorSubscription.onMessage(function (payload) {
 
   if (type === 'files') {
     for (const file of message.files) {
-      $('#output-files').append(
-        `<span onclick="downloadFile('${message.path}', '${file}');" class="file chip cursor-pointer mr-1 mb-1">${file}</span>`
-      );
+      appendDownloadLink('#output-files', message.path, file);
     }
   }
 });
@@ -62,9 +72,7 @@ artifactSubscription.onMessage(function (payload) {
 
   if (type === 'files') {
     for (const file of message.files) {
-      $('#artifact-output-files').append(
-        `<span onclick="downloadFile('${message.path}', '${file}');" class="file chip cursor-pointer mr-1 mb-1">${file}</span>`
-      );
+      appendDownloadLink('#artifact-output-files', message.path, file);
     }
   }
 });

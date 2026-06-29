@@ -12,6 +12,7 @@ router
   .group(() => {
     router.get('/', [ImitatorController, 'index'])
     router.post('/run', [ImitatorController, 'run'])
+    router.get('/download/:identifier/:file', [ImitatorController, 'download'])
     router.post('/download', [ImitatorController, 'download'])
     router.post('/stop', [ImitatorController, 'stop'])
   })
