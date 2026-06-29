@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Imitator</title>
+    <script src="/js/theme.js"></script>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png" />
+    <link rel="manifest" href="/img/favicon/site.webmanifest" />
+    <script type="module" src="/js/navigation.js"></script>
+    <script type="module" src="/js/forms.js"></script>
+    <script type="module" src="/js/sockets.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      @include('partials/header')
+
+      <main class="app-main">
+        {{{ await $slots.main() }}}
+        <div id="spinner"></div>
+      </main>
+    </div>
+  </body>
+</html>

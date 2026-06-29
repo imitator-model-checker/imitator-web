@@ -1,50 +1,130 @@
 # imitator-web
 
-Graphical web interface to run imitator
+Web interface for launching Imitator and artifact jobs in Docker containers, then streaming command output back to the browser in real time.
 
 ## Requirements
 
-- [node](https://nodejs.org/en/) >= 10
+- Node.js >= 24
+- npm >= 11
+- Docker available to the application process
+- Access to the Imitator Docker images used by the configured jobs
 
-## Run
+## Quick Start
 
-Firstly, you need to install the required dependencies
+Install dependencies:
 
+```bash
+npm ci
 ```
-yarn install
+
+Start the AdonisJS development server:
+
+```bash
+npm run dev
 ```
 
-Then, you need to start the server
+Build and run the production server:
 
+```bash
+npm run build
+npm start
 ```
-yarn start
-```
+
+## Scripts
+
+- `npm run dev`: builds the Tailwind stylesheet and starts AdonisJS with HMR.
+- `npm run build`: builds CSS and compiles the AdonisJS application into `build/`.
+- `npm start`: starts the compiled production server from `build/bin/server.js`.
+- `npm run serve`: starts the AdonisJS server without HMR.
+- `npm run lint`: runs ESLint.
+- `npm run typecheck`: runs TypeScript checks without emitting files.
+- `npm run pm2:start`: starts the compiled server under PM2 using `ecosystem.config.cjs`.
+- `npm run pm2:reload`: zero-downtime reload of the PM2 process.
+- `npm run pm2:stop` / `npm run pm2:delete`: stop or remove the PM2 process.
+- `npm run pm2:logs`: tail the PM2 logs for `imitator-runner`.
+
+## Runtime
+
+The application exposes two user-facing pages:
+
+- `/`: run Imitator models, optionally using benchmark files.
+- `/artifact`: run configured artifact scripts in Docker.
+
+On startup, the app checks `BENCHMARKS_FOLDER`. If no `.imi` or `.imiprop` files are present and `BENCHMARKS_AUTO_DOWNLOAD` is enabled, it downloads `benchmarks.zip` from the Zenodo record `10600092`, verifies the configured checksum, extracts it, and uses that folder for benchmark selectors.
+
+Realtime output is delivered with Adonis Transmit over SSE on `__transmit/*` routes. The browser subscribes to:
+
+- `imitator-output`
+- `artifact-output`
+
+Generated files are downloaded through `GET /api/imitator/download/:identifier/:file`. Download links open in a new browser context so the live run status remains visible.
+
+## Architecture
+
+The active application is an AdonisJS 7 TypeScript app organized around hexagonal architecture:
+
+- `app/domain`: framework-free contracts and domain helpers.
+- `app/application`: use cases for running, stopping, and downloading jobs.
+- `app/infrastructure`: Docker, filesystem, benchmark, scheduler, and Transmit/SSE adapters.
+- `app/controllers`: HTTP adapters that translate Adonis requests into use case input.
+- `resources/views`: Edge templates.
+- `resources/css`: Tailwind source stylesheet with shadcn-style design tokens and component classes adapted for Edge templates.
+- `public/js`: browser modules for forms, Transmit subscriptions, theme switching, API calls, and DOM rendering.
+- `public/css`: compiled Tailwind stylesheet served by Adonis static assets.
+- `public/img`: logos, favicons, and web manifest assets.
+- `public/vendor`: vendored browser assets served directly, including the Transmit client bundle.
+- `old`: archived Express/Pug implementation kept for reference only.
 
 ## Configuration
 
-- `UPLOAD_FOLDER`: Set the folder where the files will be saved temporarily. Default: `/tmp/imitator-runner`.
-- `BENCHMARKS_FOLDER`: Set the folder where the benchmark files are stored. Default: `./benchmarks`.
-- `IMITATOR_MODE`: Set the mode how `imitator` will be executed. Default: `binary`. The possible values are
-  - `binary`: if the `imitator` binary will be used
-  - `docker`: if the `imitator` docker image will be used
-- `IMITATOR_PATH`: Set either the path where the imitator binary is located (`binary` mode) or the name of the Docker image to be used (`docker` mode). Default `imitator`
-- `PORT`: Set the port that the server will listen. Default: `3000`
+Use environment variables to configure the runner:
+
+- `UPLOAD_FOLDER`: folder where run output files are saved temporarily. Default: `/tmp/imitator-runner`.
+- `BENCHMARKS_FOLDER`: folder where benchmark files are stored or downloaded. Default: `./benchmarks`.
+- `BENCHMARKS_AUTO_DOWNLOAD`: download Zenodo benchmarks on startup when the folder is empty. Default: `true`.
+- `BENCHMARKS_ARCHIVE_URL`: benchmark archive URL. Default: `https://zenodo.org/api/records/10600092/files/benchmarks.zip/content`.
+- `BENCHMARKS_ARCHIVE_CHECKSUM`: optional checksum for the benchmark archive. Default: `md5:85b83375de1dc12cc25c11c374b3aaa0`.
+- `BENCHMARKS_DOWNLOAD_TIMEOUT_MS`: maximum time allowed for the startup benchmark archive download. Default: `30000`.
+- `DOCKER_API`: Docker Hub API endpoint used to fetch Imitator tags. Default: `https://hub.docker.com/v2/repositories/imitator/imitator`.
+- `TIME_LIMIT_FILES`: number of days before generated output folders are cleaned. Default: `7`.
+- `HOST`: host used by the Adonis server.
+- `PORT`: server port. Default: `3000`.
+- `APP_KEY`: encryption key used by Adonis internals. Set a secret value in production.
 
 ## Production
 
-Currently, the imitator web application can be found at
-https://imitator.lipn.univ-paris13.fr/. The configuration can be modified by
-editing the file `ecosystem.config.js`. The default configuration is:
+Build before starting production:
 
-```javascript
-  ...
-  env_production: {
-    NODE_ENV: 'production',
-    UPLOAD_FOLDER: '/data/imitator',
-    BENCHMARKS_FOLDER: '/root/imitator/imitator/benchmarks',
-    IMITATOR_MODE: 'docker',
-    IMITATOR_PATH: 'imitator:latest',
-    PORT: 3001,
-  },
-  ...
+```bash
+npm ci
+npm run build
+npm start
 ```
+
+### Running with PM2
+
+The PM2 process file is `ecosystem.config.cjs`. It loads configuration from the
+project-root `.env` file (via Node's built-in `process.loadEnvFile()`) and passes
+those variables to the process, so there is nothing to hardcode. Create a `.env`
+on the server with your production values (copy `.env.example` as a starting
+point), then:
+
+```bash
+npm ci
+npm run build
+npm run pm2:start
+```
+
+Use `npm run pm2:reload` to apply a new build with zero downtime, and
+`npm run pm2:logs` to follow the output. PM2 must be installed on the host
+(`npm install -g pm2`).
+
+If your reverse proxy enables gzip, exclude `text/event-stream` so Transmit/SSE connections are not buffered or compressed.
+
+## Authors
+
+See [AUTHORS.md](AUTHORS.md) for the list of people who have contributed to this project.
+
+## License
+
+This project is licensed under the GNU General Public License v3.0. See [LICENSE](LICENSE) for details.

@@ -1,0 +1,39 @@
+<div class="card">
+  <div class="card-title">Artifact</div>
+  <p class="card-description">Select a configured artifact image and script to execute in Docker.</p>
+
+  <form id="artifact-form" class="form-stack">
+    <div class="field">
+      <label for="artifact" class="label">Artifact</label>
+      <select name="artifact" id="artifact" class="select w-full leading-tight">
+        <option value="none">Please Select</option>
+        @each(name in names)
+          <option value="{{ name }}">{{ name }}</option>
+        @end
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="script" class="label">Script</label>
+      <select name="script" id="script" class="select w-full">
+        <option value="" class="none"></option>
+        @each(entry in Object.entries(artifacts))
+          @let(name = entry[0])
+          @let(artifact = entry[1])
+          @each(script in artifact.scripts)
+            <option value="{{ script }}" class="{{ name }}">{{ script }}</option>
+          @end
+        @end
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="options" class="label">Options</label>
+      <input name="options" type="text" id="options" placeholder="-i flipflop -t 120" class="input w-full" />
+    </div>
+
+    <div class="pt-2">
+      <button id="run-artifact-button" type="submit" class="submit-button w-full">Run</button>
+    </div>
+  </form>
+</div>

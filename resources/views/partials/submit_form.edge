@@ -1,0 +1,74 @@
+<div class="card">
+  <div class="card-title">Input</div>
+  <p class="card-description">Choose model files or benchmarks, then stream the run output as it arrives.</p>
+
+  <form id="imitator-form" class="form-stack">
+    <div class="field">
+      <label for="models" class="label">Models</label>
+      <label for="benchmark-models-toggle" class="toggle mb-3">
+        <div class="relative">
+          <input id="benchmark-models-toggle" type="checkbox" class="hidden" />
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </div>
+        <div class="ml-3 text-sm font-medium">From benchmarks</div>
+      </label>
+
+      <input name="models" type="file" id="models" placeholder="~/my-model.imi" required accept=".imi" multiple class="input w-full" />
+      <select name="models_benchmark" id="models" required disabled class="select w-full leading-tight hidden">
+        @each(entry in Object.entries(benchmarks.models))
+          @let(name = entry[0])
+          @let(files = entry[1])
+          <optgroup label="{{ name }}">
+            @each(model in files)
+              <option value="{{ `${name}/${model}` }}" class="{{ name }}">{{ model }}</option>
+            @end
+          </optgroup>
+        @end
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="property" class="label">Property</label>
+      <label for="benchmark-properties-toggle" class="toggle mb-3">
+        <div class="relative">
+          <input id="benchmark-properties-toggle" type="checkbox" class="hidden" />
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </div>
+        <div class="ml-3 text-sm font-medium">From benchmarks</div>
+      </label>
+
+      <input name="property" type="file" id="property" placeholder="~/my-property.imiprop" accept=".imiprop" class="input w-full" />
+      <select name="properties_benchmark" id="property" disabled class="select w-full leading-tight hidden">
+        @each(entry in Object.entries(benchmarks.properties))
+          @let(name = entry[0])
+          @let(files = entry[1])
+          <optgroup label="{{ name }}">
+            @each(property in files)
+              <option value="{{ `${name}/${property}` }}" class="{{ name }}">{{ property }}</option>
+            @end
+          </optgroup>
+        @end
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="options" class="label">Options</label>
+      <input name="options" type="text" id="options" placeholder="-depth-limit=10, -statistics" class="input w-full" />
+    </div>
+
+    <div class="field">
+      <label for="version" class="label">Imitator Version</label>
+      <select name="version" id="version" class="select w-full leading-tight">
+        @each(version in versions)
+          <option value="{{ version }}">{{ version }}</option>
+        @end
+      </select>
+    </div>
+
+    <div class="pt-2">
+      <button id="run-artifact-button" type="submit" class="submit-button w-full">Run</button>
+    </div>
+  </form>
+</div>
