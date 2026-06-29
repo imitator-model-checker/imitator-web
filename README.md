@@ -38,6 +38,10 @@ npm start
 - `npm run serve`: starts the AdonisJS server without HMR.
 - `npm run lint`: runs ESLint.
 - `npm run typecheck`: runs TypeScript checks without emitting files.
+- `npm run pm2:start`: starts the compiled server under PM2 using `ecosystem.config.cjs`.
+- `npm run pm2:reload`: zero-downtime reload of the PM2 process.
+- `npm run pm2:stop` / `npm run pm2:delete`: stop or remove the PM2 process.
+- `npm run pm2:logs`: tail the PM2 logs for `imitator-runner`.
 
 ## Runtime
 
@@ -97,16 +101,30 @@ npm run build
 npm start
 ```
 
-The PM2 deployment file is `ecosystem.config.cjs`. Its production defaults are:
+### Running with PM2
 
-```javascript
-env_production: {
-  NODE_ENV: 'production',
-  UPLOAD_FOLDER: '/data/imitator',
-  BENCHMARKS_FOLDER: '/root/imitator/imitator/benchmarks',
-  PORT: 3001,
-  HOST: '0.0.0.0',
-}
+The PM2 process file is `ecosystem.config.cjs`. It loads configuration from the
+project-root `.env` file (via Node's built-in `process.loadEnvFile()`) and passes
+those variables to the process, so there is nothing to hardcode. Create a `.env`
+on the server with your production values (copy `.env.example` as a starting
+point), then:
+
+```bash
+npm ci
+npm run build
+npm run pm2:start
 ```
 
+Use `npm run pm2:reload` to apply a new build with zero downtime, and
+`npm run pm2:logs` to follow the output. PM2 must be installed on the host
+(`npm install -g pm2`).
+
 If your reverse proxy enables gzip, exclude `text/event-stream` so Transmit/SSE connections are not buffered or compressed.
+
+## Authors
+
+See [AUTHORS.md](AUTHORS.md) for the list of people who have contributed to this project.
+
+## License
+
+This project is licensed under the GNU General Public License v3.0. See [LICENSE](LICENSE) for details.
