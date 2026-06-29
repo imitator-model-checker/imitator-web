@@ -12,8 +12,10 @@ router
   .group(() => {
     router.get('/', [ImitatorController, 'index'])
     router.post('/run', [ImitatorController, 'run'])
-    router.get('/download/:identifier/:file', [ImitatorController, 'download'])
-    router.post('/download', [ImitatorController, 'download'])
+    router
+      .get('/download/:identifier/:file', [ImitatorController, 'download'])
+      .as('imitator.download')
+    router.post('/download', [ImitatorController, 'download']).as('imitator.download.legacy')
     router.post('/stop', [ImitatorController, 'stop'])
   })
   .prefix('/api/imitator')
