@@ -1,5 +1,10 @@
 import type { ImitatorCommand, ImitatorCommandBuilder } from '#domain/imitator/imitator_command'
 
+// Tags that point to a moving target: the remote image can change without the
+// tag changing, so we must re-pull them on every run. Pinned version tags
+// (e.g. v3.4.0) are immutable and can safely use the local cache.
+const MUTABLE_TAGS = new Set(['latest', 'develop'])
+
 export class ImitatorDockerCommandBuilder implements ImitatorCommandBuilder {
   build(input: {
     model: string
@@ -19,11 +24,16 @@ export class ImitatorDockerCommandBuilder implements ImitatorCommandBuilder {
         ? ['--user', `${process.getuid()}:${process.getgid()}`]
         : []
 
+    // Force a fresh pull for moving tags so a newer build on the registry is
+    // picked up instead of a stale local image.
+    const pullOptional = MUTABLE_TAGS.has(input.version) ? ['--pull', 'always'] : []
+
     return {
       command: 'docker',
       arguments: [
         'run',
         '--rm',
+        ...pullOptional,
         ...userOptional,
         '-v',
         volume,
