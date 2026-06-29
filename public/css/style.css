@@ -21173,10 +21173,10 @@ body {
   width: 100%;
   display: flex;
   flex-grow: 1;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 .page-grid {
@@ -21201,13 +21201,8 @@ body {
 
 .navigation {
   width: 100%;
-  display: flex;
-  flex-grow: 0;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
   border-bottom-width: 1px;
@@ -21221,6 +21216,15 @@ body {
   z-index: 50;
 }
 
+.navigation-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  grid-gap: 0.75rem;
+  gap: 0.75rem;
+}
+
 .brand-link {
   display: flex;
   align-items: center;
@@ -21230,18 +21234,39 @@ body {
   font-size: 1.125rem;
   letter-spacing: -0.025em;
   color: var(--foreground);
+  min-width: 0;
 }
 
 .brand-logo {
   width: auto;
-  height: 2.25rem;
+  height: 2rem;
 }
 
-.nav-actions {
+.brand-link span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nav-controls {
   display: flex;
   align-items: center;
   grid-gap: 0.5rem;
   gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.nav-actions {
+  display: none;
+  width: 100%;
+  flex-direction: column;
+  grid-gap: 0.5rem;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+}
+
+.nav-actions[data-open='true'] {
+  display: flex;
 }
 
 .nav-link {
@@ -21261,6 +21286,10 @@ body {
   color: var(--foreground);
   background: var(--card);
   box-shadow: var(--shadow-sm);
+}
+
+.nav-actions .nav-link {
+  width: 100%;
 }
 
 .nav-link:hover {
@@ -21284,6 +21313,29 @@ body {
   height: 1.1rem;
 }
 
+.nav-menu-toggle {
+  cursor: pointer;
+  padding: 0.5rem;
+  line-height: 0;
+}
+
+.nav-menu-toggle .menu-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.nav-menu-toggle .menu-icon-close {
+  display: none;
+}
+
+.nav-menu-toggle[aria-expanded='true'] .menu-icon-open {
+  display: none;
+}
+
+.nav-menu-toggle[aria-expanded='true'] .menu-icon-close {
+  display: block;
+}
+
 /* Default to the moon (light theme); theme.js swaps to the sun in dark mode. */
 
 .theme-toggle .theme-icon-sun {
@@ -21292,6 +21344,49 @@ body {
 
 .theme-toggle .theme-icon-moon {
   display: block;
+}
+
+@media (min-width: 768px) {
+  .app-main {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .navigation-bar {
+    width: auto;
+  }
+
+  .brand-logo {
+    height: 2.25rem;
+  }
+
+  .nav-menu-toggle {
+    display: none;
+  }
+
+  .nav-actions {
+    display: flex;
+    width: auto;
+    flex-direction: row;
+    align-items: center;
+    grid-gap: 0.5rem;
+    gap: 0.5rem;
+    padding-top: 0;
+  }
+
+  .nav-actions .nav-link {
+    width: auto;
+  }
 }
 
 /* ---------- Card ---------- */

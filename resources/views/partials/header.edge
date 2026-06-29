@@ -1,22 +1,36 @@
-<nav class="navigation">
-  <div class="flex items-center flex-no-shrink mr-6">
+<nav class="navigation" aria-label="Main navigation">
+  <div class="navigation-bar">
     <a class="brand-link" href="https://www.imitator.fr" target="_blank" rel="noopener noreferrer">
       <img src="/img/imitator.png" alt="Imitator" class="brand-logo" />
       <span>Imitator</span>
     </a>
+
+    <div class="nav-controls">
+      <button id="theme-toggle" type="button" class="nav-link theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <svg class="theme-icon theme-icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" />
+        </svg>
+        <svg class="theme-icon theme-icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+        </svg>
+      </button>
+
+      <button id="nav-menu-toggle" type="button" class="nav-link nav-menu-toggle" aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" title="Menu">
+        <svg class="menu-icon menu-icon-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 6h16" />
+          <path d="M4 12h16" />
+          <path d="M4 18h16" />
+        </svg>
+        <svg class="menu-icon menu-icon-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 6 6 18" />
+          <path d="m6 6 12 12" />
+        </svg>
+      </button>
+    </div>
   </div>
 
-  <div class="nav-actions">
-    <button id="theme-toggle" type="button" class="nav-link theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
-      <svg class="theme-icon theme-icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="12" cy="12" r="4" />
-        <path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" />
-      </svg>
-      <svg class="theme-icon theme-icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
-      </svg>
-    </button>
-
+  <div id="primary-navigation" class="nav-actions" data-open="false">
     <a href="/" class="nav-link">
       Runner
     </a>

@@ -128,7 +128,7 @@ body {
 }
 
 .app-main {
-  @apply w-full flex flex-grow px-6 py-10;
+  @apply w-full flex flex-grow px-4 py-6;
 }
 
 .page-grid {
@@ -145,7 +145,7 @@ body {
 /* ---------- Navigation ---------- */
 
 .navigation {
-  @apply w-full flex flex-grow-0 items-center justify-between flex-wrap px-6 py-3 border-b sticky top-0;
+  @apply w-full px-4 py-3 border-b sticky top-0;
   background: var(--nav-bg);
   border-color: var(--border);
   backdrop-filter: saturate(180%) blur(12px);
@@ -153,18 +153,35 @@ body {
   z-index: 50;
 }
 
+.navigation-bar {
+  @apply w-full flex items-center justify-between gap-3;
+}
+
 .brand-link {
   @apply flex items-center gap-3 font-semibold text-lg tracking-tight;
   color: var(--foreground);
+  min-width: 0;
 }
 
 .brand-logo {
   @apply w-auto;
-  height: 2.25rem;
+  height: 2rem;
+}
+
+.brand-link span {
+  @apply truncate;
+}
+
+.nav-controls {
+  @apply flex items-center gap-2 flex-shrink-0;
 }
 
 .nav-actions {
-  @apply flex items-center gap-2;
+  @apply hidden w-full flex-col gap-2 pt-3;
+}
+
+.nav-actions[data-open='true'] {
+  @apply flex;
 }
 
 .nav-link {
@@ -174,6 +191,10 @@ body {
   color: var(--foreground);
   background: var(--card);
   box-shadow: var(--shadow-sm);
+}
+
+.nav-actions .nav-link {
+  @apply w-full;
 }
 
 .nav-link:hover {
@@ -197,6 +218,29 @@ body {
   height: 1.1rem;
 }
 
+.nav-menu-toggle {
+  @apply cursor-pointer;
+  padding: 0.5rem;
+  line-height: 0;
+}
+
+.nav-menu-toggle .menu-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.nav-menu-toggle .menu-icon-close {
+  display: none;
+}
+
+.nav-menu-toggle[aria-expanded='true'] .menu-icon-open {
+  display: none;
+}
+
+.nav-menu-toggle[aria-expanded='true'] .menu-icon-close {
+  display: block;
+}
+
 /* Default to the moon (light theme); theme.js swaps to the sun in dark mode. */
 .theme-toggle .theme-icon-sun {
   display: none;
@@ -204,6 +248,36 @@ body {
 
 .theme-toggle .theme-icon-moon {
   display: block;
+}
+
+@screen md {
+  .app-main {
+    @apply px-6 py-10;
+  }
+
+  .navigation {
+    @apply flex items-center justify-between px-6;
+  }
+
+  .navigation-bar {
+    @apply w-auto;
+  }
+
+  .brand-logo {
+    height: 2.25rem;
+  }
+
+  .nav-menu-toggle {
+    @apply hidden;
+  }
+
+  .nav-actions {
+    @apply flex w-auto flex-row items-center gap-2 pt-0;
+  }
+
+  .nav-actions .nav-link {
+    @apply w-auto;
+  }
 }
 
 /* ---------- Card ---------- */
