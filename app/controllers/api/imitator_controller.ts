@@ -22,7 +22,7 @@ export default class ImitatorController {
         property: request.file('property', { extnames: ['imiprop'] }),
         propertyBenchmark: request.input('properties_benchmark') ?? null,
         options: request.input('options') ?? '',
-        version: request.input('version') ?? 'latest',
+        version: request.input('version') || 'latest',
       })
 
       return { result }
