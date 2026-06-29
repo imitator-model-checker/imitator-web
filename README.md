@@ -51,6 +51,8 @@ Realtime output is delivered with Adonis Transmit over SSE on `__transmit/*` rou
 - `imitator-output`
 - `artifact-output`
 
+Generated files are downloaded through `GET /api/imitator/download/:identifier/:file`. Download links open in a new browser context so the live run status remains visible.
+
 ## Architecture
 
 The active application is an AdonisJS 7 TypeScript app organized around hexagonal architecture:
@@ -64,6 +66,7 @@ The active application is an AdonisJS 7 TypeScript app organized around hexagona
 - `public/js`: browser modules for forms, Transmit subscriptions, theme switching, API calls, and DOM rendering.
 - `public/css`: compiled Tailwind stylesheet served by Adonis static assets.
 - `public/img`: logos, favicons, and web manifest assets.
+- `public/vendor`: vendored browser assets served directly, including the Transmit client bundle.
 - `old`: archived Express/Pug implementation kept for reference only.
 
 ## Configuration
