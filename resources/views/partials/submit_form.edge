@@ -15,7 +15,7 @@
       </label>
 
       <input name="models" type="file" id="models" placeholder="~/my-model.imi" required accept=".imi" multiple class="input w-full" />
-      <select name="models_benchmark" id="models" multiple required disabled class="select w-full leading-tight hidden">
+      <select name="models_benchmark" id="models" required disabled class="select w-full leading-tight hidden">
         @each(entry in Object.entries(benchmarks.models))
           @let(name = entry[0])
           @let(files = entry[1])
