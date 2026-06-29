@@ -31,11 +31,11 @@ export default class ImitatorController {
     }
   }
 
-  async download({ params, request, response }: HttpContext) {
+  async download({ params, response }: HttpContext) {
     try {
       const filePath = await new DownloadOutputFile().handle({
-        file: params.file ?? request.input('file') ?? null,
-        identifier: params.identifier ?? request.input('identifier') ?? null,
+        file: params.file ?? null,
+        identifier: params.identifier ?? null,
       })
 
       return response.download(filePath)
