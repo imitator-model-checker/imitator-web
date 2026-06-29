@@ -28,6 +28,8 @@ function downloadUrl(identifier, file) {
 function appendDownloadLink(container, identifier, file) {
   $('<a></a>')
     .attr('href', downloadUrl(identifier, file))
+    .attr('target', '_blank')
+    .attr('rel', 'noopener noreferrer')
     .addClass('file chip cursor-pointer mr-1 mb-1')
     .text(file)
     .appendTo(container);
