@@ -46,6 +46,8 @@ The application exposes two user-facing pages:
 - `/`: run Imitator models, optionally using benchmark files.
 - `/artifact`: run configured artifact scripts in Docker.
 
+On startup, the app checks `BENCHMARKS_FOLDER`. If no `.imi` or `.imiprop` files are present and `BENCHMARKS_AUTO_DOWNLOAD` is enabled, it downloads `benchmarks.zip` from the Zenodo record `10600092`, verifies the configured checksum, extracts it, and uses that folder for benchmark selectors.
+
 Realtime output is delivered with Adonis Transmit over SSE on `__transmit/*` routes. The browser subscribes to:
 
 - `imitator-output`
@@ -74,7 +76,11 @@ The active application is an AdonisJS 7 TypeScript app organized around hexagona
 Use environment variables to configure the runner:
 
 - `UPLOAD_FOLDER`: folder where run output files are saved temporarily. Default: `/tmp/imitator-runner`.
-- `BENCHMARKS_FOLDER`: folder where benchmark files are stored. Default: `./benchmarks`.
+- `BENCHMARKS_FOLDER`: folder where benchmark files are stored or downloaded. Default: `./benchmarks`.
+- `BENCHMARKS_AUTO_DOWNLOAD`: download Zenodo benchmarks on startup when the folder is empty. Default: `true`.
+- `BENCHMARKS_ARCHIVE_URL`: benchmark archive URL. Default: `https://zenodo.org/api/records/10600092/files/benchmarks.zip/content`.
+- `BENCHMARKS_ARCHIVE_CHECKSUM`: optional checksum for the benchmark archive. Default: `md5:85b83375de1dc12cc25c11c374b3aaa0`.
+- `BENCHMARKS_DOWNLOAD_TIMEOUT_MS`: maximum time allowed for the startup benchmark archive download. Default: `30000`.
 - `DOCKER_API`: Docker Hub API endpoint used to fetch Imitator tags. Default: `https://hub.docker.com/v2/repositories/imitator/imitator`.
 - `TIME_LIMIT_FILES`: number of days before generated output folders are cleaned. Default: `7`.
 - `HOST`: host used by the Adonis server.

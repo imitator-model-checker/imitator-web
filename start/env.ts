@@ -12,6 +12,10 @@ export default await Env.create(new URL('../', import.meta.url), {
 
   UPLOAD_FOLDER: Env.schema.string.optional(),
   BENCHMARKS_FOLDER: Env.schema.string.optional(),
+  BENCHMARKS_AUTO_DOWNLOAD: Env.schema.boolean.optional(),
+  BENCHMARKS_ARCHIVE_URL: Env.schema.string.optional({ format: 'url' }),
+  BENCHMARKS_ARCHIVE_CHECKSUM: Env.schema.string.optional(),
+  BENCHMARKS_DOWNLOAD_TIMEOUT_MS: Env.schema.number.optional(),
   DOCKER_API: Env.schema.string.optional({ format: 'url' }),
   TIME_LIMIT_FILES: Env.schema.number.optional(),
 })

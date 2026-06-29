@@ -10,7 +10,6 @@ export interface BenchmarkFiles {
 export class BenchmarkRepository {
   async getBenchmarkFiles(): Promise<BenchmarkFiles> {
     const files = await glob('**/*.{imi,imiprop}', {
-      deep: 2,
       onlyFiles: true,
       cwd: runnerConfig.benchmarksFolder,
       followSymbolicLinks: false,
