@@ -60,12 +60,19 @@ export class RunImitator {
       )
     )
 
+    const models = input.models.length
+      ? input.models.map((model) => model.clientName)
+      : input.modelBenchmarks.map((model) => `${model}.imi`)
+    const property = input.property?.clientName ?? input.propertyBenchmark
+    const propertyLabel =
+      property && !property.endsWith('.imiprop') ? `${property}.imiprop` : property
+
     return {
       options,
       identifier,
       outputs,
-      models: input.models.map((model) => model.clientName),
-      property: input.property?.clientName,
+      models,
+      property: propertyLabel,
     }
   }
 }

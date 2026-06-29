@@ -55,6 +55,8 @@ function setDisabled(element, disabled) {
  * @param {string} label Chip text.
  */
 function appendChip(containerSelector, className, label) {
+  if (!label) return;
+
   const container = find(containerSelector);
   if (!container) return;
 
