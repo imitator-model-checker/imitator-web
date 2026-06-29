@@ -21185,6 +21185,79 @@ body {
   padding-bottom: 1.5rem;
 }
 
+.app-footer {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+  font-size: 0.875rem;
+  border-top-width: 1px;
+  color: var(--muted-foreground);
+  border-color: var(--border);
+}
+
+.footer-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  grid-gap: 1rem;
+  gap: 1rem;
+}
+
+.footer-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  grid-gap: 1.25rem;
+  gap: 1.25rem;
+}
+
+.footer-logo {
+  width: auto;
+  -o-object-fit: contain;
+     object-fit: contain;
+  max-width: 4.608rem;
+  height: 1.44rem;
+}
+
+.footer-logo-cnrs {
+  height: 1.584rem;
+}
+
+.footer-logo-lipn {
+  max-width: 5.76rem;
+}
+
+.footer-logo-dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .footer-logo-light {
+    display: none;
+  }
+
+  :root:not([data-theme='light']) .footer-logo-dark {
+    display: block;
+  }
+}
+
+:root[data-theme='dark'] .footer-logo-light {
+  display: none;
+}
+
+:root[data-theme='dark'] .footer-logo-dark {
+  display: block;
+}
+
+.app-footer p {
+  margin: 0;
+}
+
 .page-grid {
   width: 100%;
   max-width: 72rem;
@@ -21322,6 +21395,17 @@ body {
   width: 100%;
 }
 
+.nav-icon-link {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  min-width: 2.75rem;
+}
+
+.nav-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
 .nav-link:hover {
   background: var(--secondary);
   border-color: var(--border-strong);
@@ -21382,6 +21466,25 @@ body {
     padding-right: 1.5rem;
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;
+  }
+
+  .app-footer {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .footer-content {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr auto 1fr;
+  }
+
+  .footer-logos {
+    justify-content: center;
+  }
+
+  .footer-content p {
+    justify-self: start;
   }
 
   .navigation {

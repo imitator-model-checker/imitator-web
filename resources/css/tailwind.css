@@ -137,6 +137,60 @@ body {
   @apply w-full flex flex-grow px-4 py-6;
 }
 
+.app-footer {
+  @apply w-full px-4 py-5 text-sm border-t;
+  color: var(--muted-foreground);
+  border-color: var(--border);
+}
+
+.footer-content {
+  @apply w-full flex flex-col items-center justify-between gap-4;
+}
+
+.footer-logos {
+  @apply flex flex-wrap items-center justify-center gap-5;
+}
+
+.footer-logo {
+  @apply w-auto object-contain;
+  max-width: 4.608rem;
+  height: 1.44rem;
+}
+
+.footer-logo-cnrs {
+  height: 1.584rem;
+}
+
+.footer-logo-lipn {
+  max-width: 5.76rem;
+}
+
+.footer-logo-dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .footer-logo-light {
+    display: none;
+  }
+
+  :root:not([data-theme='light']) .footer-logo-dark {
+    display: block;
+  }
+}
+
+:root[data-theme='dark'] .footer-logo-light {
+  display: none;
+}
+
+:root[data-theme='dark'] .footer-logo-dark {
+  display: block;
+}
+
+.app-footer p {
+  @apply m-0;
+}
+
 .page-grid {
   @apply w-full max-w-6xl mx-auto grid grid-cols-1 gap-6;
   align-content: start;
@@ -226,6 +280,16 @@ body {
   @apply w-full;
 }
 
+.nav-icon-link {
+  @apply px-2;
+  min-width: 2.75rem;
+}
+
+.nav-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
 .nav-link:hover {
   background: var(--secondary);
   border-color: var(--border-strong);
@@ -282,6 +346,23 @@ body {
 @screen md {
   .app-main {
     @apply px-6 py-10;
+  }
+
+  .app-footer {
+    @apply px-6;
+  }
+
+  .footer-content {
+    @apply grid items-center;
+    grid-template-columns: 1fr auto 1fr;
+  }
+
+  .footer-logos {
+    @apply justify-center;
+  }
+
+  .footer-content p {
+    justify-self: start;
   }
 
   .navigation {

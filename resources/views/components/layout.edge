@@ -22,6 +22,34 @@
         {{{ await $slots.main() }}}
         <div id="spinner"></div>
       </main>
+
+      <footer class="app-footer">
+        <div class="footer-content">
+          <p>&copy; {{ new Date().getFullYear() }} Imitator</p>
+          <div class="footer-logos" aria-label="Partner logos">
+            <img
+              src="/img/logos/cnrs-light.png"
+              alt="CNRS"
+              class="footer-logo footer-logo-light footer-logo-cnrs"
+            />
+            <img
+              src="/img/logos/cnrs-dark.webp"
+              alt="CNRS"
+              class="footer-logo footer-logo-dark footer-logo-cnrs"
+            />
+            <img
+              src="/img/logos/lipn-light.png"
+              alt="LIPN"
+              class="footer-logo footer-logo-light footer-logo-lipn"
+            />
+            <img
+              src="/img/logos/lipn-dark.webp"
+              alt="LIPN"
+              class="footer-logo footer-logo-dark footer-logo-lipn"
+            />
+          </div>
+        </div>
+      </footer>
     </div>
   </body>
 </html>

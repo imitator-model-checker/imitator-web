@@ -50,6 +50,13 @@ The application exposes two user-facing pages:
 - `/`: run Imitator models, optionally using benchmark files.
 - `/artifact`: run configured artifact scripts in Docker.
 
+The shared layout includes a responsive navigation bar with a theme toggle and a
+GitHub icon link to this repository. The footer renders the current year and
+theme-aware partner logos from `public/img/logos`:
+
+- `cnrs-light.png` / `cnrs-dark.webp`
+- `lipn-light.png` / `lipn-dark.webp`
+
 On startup, the app checks `BENCHMARKS_FOLDER`. If no `.imi` or `.imiprop` files are present and `BENCHMARKS_AUTO_DOWNLOAD` is enabled, it downloads `benchmarks.zip` from the Zenodo record `10600092`, verifies the configured checksum, extracts it, and uses that folder for benchmark selectors.
 
 Realtime output is delivered with Adonis Transmit over SSE on `__transmit/*` routes. The browser subscribes to:
